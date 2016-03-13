@@ -11,8 +11,12 @@ public:
 	World();
 	~World();
 	Player* player;
+	void CreatePlayer();
 	void CreateWorld();
 };
+
+
+
 
 
 

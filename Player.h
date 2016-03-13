@@ -4,8 +4,8 @@
 class Player
 {
 public:
-	int hp = 100;
-	int damage = 20;
+	int hp;
+	int damage;
 };
 
 
