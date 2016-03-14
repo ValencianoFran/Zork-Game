@@ -4,11 +4,19 @@
 class Room
 {
 public:
-	char description[300];
 	char name[25];
-	int allowpass = 0;  // to controle gates ... 0 is open
-	
-	typedef struct
+	char description[300];
+
+	/*
+	char* north;
+	char* south;
+	char* east;
+	char* weast;
+	char* up;
+	char* down;
+	*/
+
+	/*typedef struct
 	{
 		char *north;
 		char *south;
@@ -26,6 +34,7 @@ public:
 	position house;
 	position shop;
 	position store;
+	*/
 };
 
 

@@ -8,11 +8,12 @@ class World
 {
 public:
 	Room* room;
-	World();
-	~World();
 	Player* player;
+	Exit* exits;
 	void CreatePlayer();
 	void CreateWorld();
+	World();
+	~World();
 };
 
 
