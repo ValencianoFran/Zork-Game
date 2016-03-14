@@ -5,10 +5,9 @@
 class Player
 {
 public:
-	Room* playerposition;
+	Room* pos;
 	int hp;
 	int damage;
 };
-
 
 #endif
