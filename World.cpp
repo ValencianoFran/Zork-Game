@@ -10,6 +10,7 @@
 #include "exit.h"
 
 #define NUM_EXITS 16
+#define INVALID -1
 
 World::World()
 {
@@ -142,5 +143,79 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 		strcpy_s(word1, strtok_s(str, " ", &context));
 		strcpy_s(word2, strtok_s(NULL, " ", &context));
 	}
+	Action(word1, word2); // Future method witch will send the information to go, look, open or close
+}
 
+int World::Direction(char op[]) //Check the direction is valid
+{
+	if ((strcmp(op, "north")) == 0 || (strcmp(op, "n") == 0))
+	{
+		return 0;
+	}
+	if ((strcmp(op, "south") == 0) || (strcmp(op, "s") == 0))
+	{
+		return 1;
+	}
+	if ((strcmp(op, "east") == 0) || (strcmp(op, "e") == 0))
+	{
+		return 2;
+	}
+	if ((strcmp(op, "west") == 0) || (strcmp(op, "w") == 0))
+	{
+		return 3;
+	}
+	if ((strcmp(op, "up") == 0) || (strcmp(op, "u") == 0))
+	{
+		return 4;
+	}
+	if ((strcmp(op, "down") == 0) || (strcmp(op, "d") == 0))
+	{
+		return 5;
+	}
+	return INVALID;
+}
+
+
+void World::Go(char op[]) //Move player
+{
+	int direc = INVALID;
+	int  i = 0;
+	bool finish = false;   //Check
+	direc = Direction(op); //Check the direction is valid
+
+	if (direc == INVALID)
+	{
+		printf("Invalid direction\n\n");
+		return;
+	}
+
+	else
+	{
+		for (i = 0; i < NUM_EXITS; i++)
+		{
+			if (exits[i].origin->name == player->pos->name)
+			{
+				if (exits[i].direction == direc)
+				{
+					if (exits[i].close == true)
+					{
+						printf("The door is closed\n");
+						finish = true;
+						break;
+					}
+					else{
+						player->pos = exits[i].destination;
+						printf("\nYou are in %s\n\n%s \n", player->pos->name, player->pos->description);
+
+						finish = true;
+						break;
+					}
+				}
+			}
+		}
+		if (finish == false)
+		{
+			printf("\nThere is nothing there, you can't go this way\n");
+		}
+	}
 }

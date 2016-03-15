@@ -23,7 +23,7 @@ Exit::Exit(const char* _name, const char* desc, Room* orig, Room* dest, const di
 Exit::~Exit()
 {}
 
-bool Exit::Init(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc)
+void Exit::Init(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc)
 {
 	bool ret = true;
 
@@ -35,6 +35,4 @@ bool Exit::Init(const char* _name, const char* desc, Room* orig, Room* dest, con
 		destination = dest;
 		direction = direc;
 	}
-
-	return ret;
 }

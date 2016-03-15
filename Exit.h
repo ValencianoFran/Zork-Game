@@ -25,11 +25,10 @@ public:
 	Exit(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
 	~Exit();
 
-	bool Init(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
+	void Init(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
 
 	Room* origin; // Comparar con el punto en el que estas
 	Room* destination;
-	bool open = true;
 	dir direction;
 };
 
