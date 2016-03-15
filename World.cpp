@@ -44,7 +44,7 @@ void World::CreateWorld()
 	room[4].Init("Palmtree", "There are a monkey! what should i do now?");
 	room[5].Init("Outside house", "I can see a cool house in south, but the door is closed\n");
 	room[6].Init("House", "This house is so extravagant\nThere's a man\n");
-	room[7].Init("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something in the south\n");
+	room[7].Init("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n");
 	room[8].Init("Store", "Here is the inventory of the shop, I could catch something borrowed");
 
 	/*  -- EXITS --    */
@@ -85,7 +85,7 @@ void World::CreateWorld()
 	exits[11].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 7), (room), north);
 
 	//Shop - Store
-	exits[12].Init("Store\n", "What would be there?\n", (room + 7), (room + 8), down);
+	exits[12].Init("Store\n", "What would be down stairs?\n", (room + 7), (room + 8), down);
 
 	//Store - Shop
 	exits[13].Init("Shop\n", "There must be interesting things to buy\n", (room + 8), (room + 7), up);
