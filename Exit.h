@@ -1,14 +1,35 @@
 #ifndef _EXIT__
 #define _EXIT__
 
-class Exits{
-public:
-	int north;
-	int south;
-	int east;
-	int weast;
-	int up;
-	int down;
+#include "Room.h"
+
+enum dir
+{
+	north = 0,
+	south,
+	east,
+	west,
+	up,
+	down
 };
+
+class Exit
+{
+public:
+	char name[30];
+	char description[300];
+
+	Exit();
+	Exit(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
+	~Exit();
+
+	bool Init(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
+
+	Room* origin; // Comparar con el punto en el que estas
+	Room* destination;
+	bool open = true;
+	dir direction;
+};
+
 
 #endif
