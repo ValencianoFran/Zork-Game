@@ -23,6 +23,7 @@ World::~World()
 {
 	delete[] room;
 	delete player;
+	delete[] exits;
 }
 
 void World::CreatePlayer()

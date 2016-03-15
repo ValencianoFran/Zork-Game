@@ -12,8 +12,10 @@ int main() {
 	world.CreateWorld();
 
 	char direction[30];
+
+	printf("WELCOME TO MY ZORK!\nYou are lost in one island and you have to scape.\nHave fun!\n\n");
 	world.Tutorial();
-	printf("Introduce where you want to go <'n', 's', 'w', 'e', 'u', 'd'>\n\n");
+	printf("Introduce where you want to go:\n");
 
 	while (0 != strcmp(direction, "quit"))
 	{
