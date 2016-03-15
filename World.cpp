@@ -15,7 +15,7 @@
 World::World()
 {
 	room = new Room[9];     // 9 rooms
-	player = new Player; // 1 player and 4 npc
+	player = new Player; // 1 player
 	exits = new Exit[NUM_EXITS];
 }
 
@@ -163,7 +163,7 @@ void World::Go(char op[]) //Move player
 {
 	int direc = INVALID;
 	int  i = 0;
-	bool finish = false;   //Check
+	bool finish = false;   //Check if go action is completed
 	direc = Direction(op); //Check the direction is valid
 
 	if (direc == INVALID)
@@ -258,7 +258,7 @@ void World::Open(char op[]) //Open doors
 			{
 				if (exits[i].direction == direc)
 				{
-					if (exits[i].gate == true) //check if there are a door
+					if (exits[i].gate == true)
 					{
 						if (exits[i].close == true)
 							exits[i].close = false;
@@ -302,7 +302,7 @@ void World::Close(char op[]) //Close doors
 			{
 				if (exits[i].direction == direc)
 				{
-					if (exits[i].gate == true) //check if there are a door
+					if (exits[i].gate == true)
 					{
 						if (exits[i].close == false)
 							exits[i].close = true;
@@ -321,6 +321,11 @@ void World::Close(char op[]) //Close doors
 			printf("There is no doors to close or It's already close\n");
 		}
 	}
+}
+
+void World::Tutorial()
+{
+	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tDefault action is 'go' if you only introduce the direction.\n");
 }
 
 
@@ -358,6 +363,7 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 		Go(do1);
 		return;
 	}
+	
 
 	/*With 2 words input*/
 	else if (strcmp(do1, "go") == 0 || strcmp(do1, "g") == 0)
@@ -381,8 +387,14 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 		return;
 	}
 
+	/*Quit and help*/
 	else if (strcmp(do1, "quit") == 0 || strcmp(do1, "q") == 0)
 	{
+		return;
+	}
+	else if (strcmp(do1, "help") == 0 || strcmp(do1, "h") == 0)
+	{
+		Tutorial();
 		return;
 	}
 	

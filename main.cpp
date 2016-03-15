@@ -12,7 +12,7 @@ int main() {
 	world.CreateWorld();
 
 	char direction[30];
-
+	world.Tutorial();
 	printf("Introduce where you want to go <'n', 's', 'w', 'e', 'u', 'd'>\n\n");
 
 	while (0 != strcmp(direction, "quit"))

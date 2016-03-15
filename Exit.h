@@ -27,8 +27,8 @@ public:
 
 	void Init(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
 
-	Room* origin; // Comparar con el punto en el que estas
-	Room* destination;
+	Room* origin; // Where you are
+	Room* destination; //Where you go
 	dir direction;
 };
 

@@ -14,7 +14,7 @@ public:
 
 	World();
 	~World();
-
+	void Tutorial();
 	void CreatePlayer();
 	void CreateWorld();
 
@@ -25,6 +25,7 @@ public:
 	void Look(char[]);
 	void Close(char[]);
 	void Open(char[]);
+
 };
 
 #endif
