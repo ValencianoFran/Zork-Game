@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "World.h"
-#include "Room.h"
-#include "Exit.h"
+#include "world.h"
+#include "room.h"
+#include "exit.h"
 #include <string.h>
 
 Room::Room()
@@ -35,5 +35,4 @@ bool Room::Init(const char* _name, const char* desc)
 
 	return ret;
 }
-
 

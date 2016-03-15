@@ -1,29 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Room.h"
-#include "World.h"
-#include "Exit.h"
-#include "Player.h"
-#define NUM_EXITS 16
+#include <string.h>
+#include "world.h"
+#include "exit.h"
+#include "player.h"
+
 
 
 int main() {
-	World world; 
+	World world;
 	world.CreateWorld();
 
-	bool exit = false;
 	char direction[30];
-	int pos = 0;
 
 	printf("Introduce where you want to go <'n', 's', 'w', 'e', 'u', 'd'>\n\n");
 
-	while (exit!=1)
+	while (0 != strcmp(direction, "quit"))
 	{
-		world.PrintScreen();
 		gets_s(direction, 20);
-		printf("%s", direction);
-		world.Mayus(direction);
-		exit = world.HandleInput(direction);
+
 	}
 
 	system("pause");

@@ -1,6 +1,6 @@
 #ifndef _PLAYER__
 #define _PLAYER__
-#include "Room.h"
+#include "room.h"
 
 class Player
 {
