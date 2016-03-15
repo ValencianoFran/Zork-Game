@@ -19,7 +19,7 @@ public:
 	void CreateWorld();
 
 	void PrintScreen();
-	bool HandleInput(char* input);
+	bool HandleInput(char input, int &);
 };
 
 #endif

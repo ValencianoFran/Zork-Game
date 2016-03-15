@@ -21,13 +21,15 @@ World::~World()
 
 void World::CreatePlayer()
 {
-
+	player->pos = room;
+	printf("%You are in %s\n", player->pos->name);
 }
 
 
 
 void World::CreateWorld()
 {
+	/*  -- Room name and description --   */
 	const char *roomname[] =
 	{ "Shore", "Depths", "Sea", "Palmtrees Island", "Palmtree", "Outside house", "House", "Shop", "Store"};
 
@@ -55,6 +57,7 @@ void World::CreateWorld()
 	room[8].Init("Store", "Here is the inventory of the shop, I could catch something borrowed");
 
 
+	/*  -- EXITS --    */
 	//Shore - Palmtrees Island
 	 exits[0].Init("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room, (room+3), north);
 
@@ -104,11 +107,7 @@ void World::CreateWorld()
 	 exits[15].Init("Outside House\n", "\n", (room + 6), (room + 5), north);
 
 
-
-
-
-
-	CreatePlayer();
+	 CreatePlayer();
 }
 
 
@@ -116,33 +115,53 @@ void World::CreateWorld()
 
 void World::PrintScreen()
 {
-	printf_s("%c\n", player->pos->name);
-	printf_s("%c\n", player->pos->description);
 }
 
 
 
-bool World::HandleInput(char* input)
+bool World::HandleInput(char input, int &position)
 {
 	bool ret = true;
 
-	system("clr");
+	int i, j;
+	// system("cls");
 
+
+	player->pos = (room + position);
 
 	switch (input)
 	{
-	case "go north":
-
-	default: 
+	case 'n':
+		for (i = 0; i < 9; i++)
+		{
+			if ((exits + i)->origin == player->pos && (exits + i)->direction == north)
+			{
+				player->pos = (exits + i)->destination;
+				for (j = 0; j < 9; j++)
+				{
+					if ((exits + i)->destination == (room + j))
+					{
+						position = j;
+						printf("You are in %s\n", player->pos);
+						return ret;
+					}
+				}
+			}
+		}
+		break;
+	default:
+	{
+			   printf("You can't go that way\n");
+			   return ret;
+			   break;
 	}
 
 
+		return ret;
+	}
 
-	return ret;
+
 }
-
-
-
 
 
 
