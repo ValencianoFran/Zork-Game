@@ -36,40 +36,24 @@ void World::CreatePlayer()
 void World::CreateWorld()
 {
 	/*  -- Room name and description --   */
-	const char *roomname[] =
-	{ "Shore", "Depths", "Sea", "Palmtrees Island", "Palmtree", "Outside house", "House", "Shop", "Store" };
-
-	const char *description[] =
-	{
-		"You are in a shore, you can try to do snorquel, explore with your boat or walk\n",
-		"It seems to be a pearl inside the oyster\n",
-		"There are sharks!! I will try to come here later with something to kill them\n",
-		"Wow there are a lot of palmtrees, it seems that there are something on that one\n",
-		"There are a monkey! what should i do now?",
-		"I can see a cool house, but the door is closed\n",
-		"This house is so extravagant\nThere's a man\n",
-		"Maybe i should buy something to kill the sharks and leave this islands\n",
-		"Here is the inventory of the shop, I could catch something borrowed",
-	};
 
 	/*Create rooms*/
-	room[0].Init("Shore", "You are in a shore, you can try to do snorquel, explore with your boat or walk\n");
+	room[0].Init("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n");
 	room[1].Init("Depths", "It seems to be a pearl inside the oyster\n");
 	room[2].Init("Sea", "There are sharks!! I will try to come here later with something to kill them\n");
-	room[3].Init("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one\n");
+	room[3].Init("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n");
 	room[4].Init("Palmtree", "There are a monkey! what should i do now?");
-	room[5].Init("Outside house", "I can see a cool house, but the door is closed\n");
+	room[5].Init("Outside house", "I can see a cool house in south, but the door is closed\n");
 	room[6].Init("House", "This house is so extravagant\nThere's a man\n");
-	room[7].Init("Shop", "Maybe i should buy something to kill the sharks and leave this islands\n");
+	room[7].Init("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something in the south\n");
 	room[8].Init("Store", "Here is the inventory of the shop, I could catch something borrowed");
 
 	/*  -- EXITS --    */
 	//Shore - Palmtrees Island
-
 	exits[0].Init("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room, (room + 3), north);
 
 	//Palmtrees Island - Shore
-	exits[1].Init("Shore\n", "There is where I begin this adventure\n", (room + 3), (room), south);
+	exits[1].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 3), (room), south);
 
 	//Palmtrees Island - Monkey
 	exits[2].Init("Palmtree\n", "Maybe there are something in the top of that palmtree\n", (room + 3), (room + 4), east);
@@ -78,34 +62,34 @@ void World::CreateWorld()
 	exits[3].Init("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", (room + 4), (room + 3), west);
 
 	//Shore - Sea
-	exits[4].Init("Palmtree\n", "Maybe there are something in the top of that palmtree\n", (room + 3), (room + 4), east);
+	exits[4].Init("Sea\n", "There are a sea, seems dangerous\n", (room), (room + 2), west);
 
 	//Sea - Shore
-	exits[5].Init("Shore\n", "\n", (room + 2), (room), east);
+	exits[5].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 2), (room), east);
 
 	//Shore - Depths
-	exits[6].Init("Depths\n", "\n", (room), (room + 1), down);
+	exits[6].Init("Depths\n", "It seems deep\n", (room), (room + 1), down);
 
 	//Depths - Shore
-	exits[7].Init("Shore\n", "\n", (room + 1), (room), up);
+	exits[7].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 1), (room), up);
 
 	//Shore - Outside House
-	exits[8].Init("Outside House\n", "\n", (room), (room + 5), east);
+	exits[8].Init("Outside House\n", "There are a pretty garden, i should take a look\n", (room), (room + 5), east);
 
 	//Outside House - Shore
-	exits[9].Init("Shore\n", "\n", (room + 5), (room), west);
+	exits[9].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 5), (room), west);
 
 	//Shore - Shop
-	exits[10].Init("Shop\n", "\n", (room), (room + 7), south);
+	exits[10].Init("Shop\n", "There must be interesting things to buy\n", (room), (room + 7), south);
 
 	//Shop - Shore
-	exits[11].Init("Shore\n", "\n", (room + 7), (room), north);
+	exits[11].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 7), (room), north);
 
 	//Shop - Store
-	exits[12].Init("Store\n", "\n", (room + 7), (room + 8), down);
+	exits[12].Init("Store\n", "What would be there?\n", (room + 7), (room + 8), down);
 
 	//Store - Shop
-	exits[13].Init("Shop\n", "\n", (room + 8), (room + 7), up);
+	exits[13].Init("Shop\n", "There must be interesting things to buy\n", (room + 8), (room + 7), up);
 
 	//Outside House - House
 	exits[14].Init("House\n", "\n", (room + 5), (room + 6), south);
@@ -218,4 +202,52 @@ void World::Go(char op[]) //Move player
 			printf("\nThere is nothing there, you can't go this way\n");
 		}
 	}
+}
+
+void World::Action(char do1[], char do2[]) //Do the action that the player input
+{
+
+	/*With 1 word input*/
+	if (strcmp(do1, "north") == 0 || strcmp(do1, "n") == 0)
+	{
+		Go(do1);
+		return;
+	}
+	if (strcmp(do1, "south") == 0 || strcmp(do1, "s") == 0)
+	{
+		Go(do1);
+		return;
+	}
+	if (strcmp(do1, "east") == 0 || strcmp(do1, "e") == 0)
+	{
+		Go(do1);
+		return;
+	}
+	if (strcmp(do1, "west") == 0 || strcmp(do1, "w") == 0)
+	{
+		Go(do1);
+		return;
+	}
+	if (strcmp(do1, "up") == 0 || strcmp(do1, "u") == 0)
+	{
+		Go(do1);
+		return;
+	}
+	if (strcmp(do1, "down") == 0 || strcmp(do1, "d") == 0)
+	{
+		Go(do1);
+		return;
+	}
+
+	/*With 2 words input*/
+	else if (strcmp(do1, "go") == 0 || strcmp(do1, "g") == 0)
+	{
+		Go(do2);
+		return;
+	}
+	
+	else{
+		printf("I don't understand\n");
+	}
+
 }

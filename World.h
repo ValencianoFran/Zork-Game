@@ -1,9 +1,9 @@
 #ifndef _WORLD__
 #define _WORLD__
 
-#include "Room.h"
-#include "Player.h"
-#include "Exit.h"
+#include "room.h"
+#include "player.h"
+#include "exit.h"
 
 class World
 {
@@ -18,11 +18,10 @@ public:
 	void CreatePlayer();
 	void CreateWorld();
 
-	int Direction(char []);
-	void Mayus(char []);
-	void Action(char [], char []);
-	void PrintScreen();
-	void HandleInput(char []);
+	void Mayus(char[]);
+	void Go(char[]);
+	int Direction(char[]);
+	void Action(char[], char[]);
 };
 
 #endif
