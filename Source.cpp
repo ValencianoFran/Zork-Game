@@ -8,9 +8,8 @@
 
 int main() {
 
-	World w;
-
-	w.CreateWorld();
+	World test; 
+	test.CreateWorld();
 	system("pause");
 	return 0;
 }
