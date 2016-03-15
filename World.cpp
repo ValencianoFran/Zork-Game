@@ -119,3 +119,28 @@ void World::CreateWorld()
 }
 
 
+void World::Mayus(char str[])//Transform capital letters to lowercase and iniciate the loop with Action
+{
+	char word1[20] = "";
+	char word2[20] = "";
+	int i = 0, spaces = 0;
+	char *context; // Necessary to do strtok
+
+	while (str[i] != '\0')
+	{
+		str[i] = (tolower(str[i]));
+		if (str[i] == ' ') spaces++;
+		i++;
+	}
+	if (spaces == 0)
+	{   //Check if there are spaces to write a second word
+		strcpy_s(word1, str);
+		strcpy_s(word2, "\0");
+	}
+	else
+	{
+		strcpy_s(word1, strtok_s(str, " ", &context));
+		strcpy_s(word2, strtok_s(NULL, " ", &context));
+	}
+
+}

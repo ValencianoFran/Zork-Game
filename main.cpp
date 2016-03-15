@@ -18,7 +18,7 @@ int main() {
 	while (0 != strcmp(direction, "quit"))
 	{
 		gets_s(direction, 20);
-
+		world.Mayus(direction);
 	}
 
 	system("pause");
