@@ -9,6 +9,8 @@
 #include "Room.h"
 #include "Exit.h"
 
+#define NUM_EXITS 16
+
 World::World()
 {
 	room = new Room[9];     // 9 rooms
@@ -121,29 +123,84 @@ void World::PrintScreen()
 {
 }
 
-void World::Mayus(char str[]){//this separates the sentence into two if possible
-	char operation1[10] = "";
-	char operation2[10] = "";
+void World::Mayus(char str[]){
+	char word1[10] = "";
+	char word2[10] = "";
 	int i = 0, spaces = 0;
 	char *context;
 
-	while (str[i] != '\0') {//checks for spaces and remove uppercase
+	while (str[i] != '\0') {
 		str[i] = (tolower(str[i]));
 		if (str[i] == ' ') spaces++;
 		i++;
 	}
 	if (spaces == 0){
-		strcpy_s(operation1, str);
-		strcpy_s(operation2, "\0");
+		strcpy_s(word1, str);
+		strcpy_s(word2, "\0");
 	}
 	else{
-		strcpy_s(operation1, strtok_s(str, " ", &context));
-		strcpy_s(operation2, strtok_s(NULL, " ", &context));
+		strcpy_s(word1, strtok_s(str, " ", &context));
+		strcpy_s(word2, strtok_s(NULL, " ", &context));
 	}
-
+	Action(word1, word2);
 }
 
-bool World::HandleInput(char input, int &position)
+
+
+int World::Direction(char op[]){
+	if ((0 == strcmp(op, "north")) || (0 == strcmp(op, "n"))){
+		return 0;
+	}
+	if ((0 == strcmp(op, "south")) || (0 == strcmp(op, "s"))){
+		return 1;
+	}
+	if ((0 == strcmp(op, "east")) || (0 == strcmp(op, "e"))){
+		return 2;
+	}
+	if ((0 == strcmp(op, "west")) || (0 == strcmp(op, "w"))){
+		return 3;
+	}
+	return false;
+}
+
+
+void World::HandleInput(char op[]){
+	int direc = -1, i = 0;
+	bool done = false;
+	direc = Direction(op);
+	if (direc == false){
+		printf("I don't understand that direction\n");
+		return;
+	}
+	else{
+		for (i = 0; i < NUM_EXITS; i++){
+
+			if (0 == strcmp(exits[i].origin->name, player->pos->name))
+			{
+				if (exits[i].direction == direc){
+					if (exits[i].close == true){
+						printf("the door is closed\n");
+						done = true;
+						break;
+					}
+					else{
+						player->pos = exits[i].destination;
+						printf("You are in %s, %s \n", player->pos->name, player->pos->description);
+
+						done = true;
+						break;
+					}
+				}
+			}
+		}
+		if (done == false){
+			printf("you can not pass\n");
+		}
+	}
+}
+
+
+/*bool World::HandleInput(char input, int &position)
 {
 	bool ret = true;
 
@@ -282,7 +339,7 @@ bool World::HandleInput(char input, int &position)
 
 
 
-
+*/
 
 /*
 //Palmtrees Island
@@ -292,3 +349,48 @@ strcpy_s((exits + 0)->name, "Wow there are a lot of palmtrees, it seems that the
 (exits + 0)->destination = (room + 3);
 (exits + 0)->direction = north;
 */
+
+/*void World::Action(char do1[], char do2[]){
+	if (0 == strcmp(do1, "north") || 0 == strcmp(ope, "n")){
+		Go(do1);
+		return;
+	}
+	if (0 == strcmp(do1, "south") || 0 == strcmp(do1, "s")){
+		Go(do1);
+		return;
+	}
+	if (0 == strcmp(do1, "east") || 0 == strcmp(do1, "e")){
+		Go(do1);
+		return;
+	}
+	if (0 == strcmp(do1, "west") || 0 == strcmp(do1, "w")){
+		Go(do1);
+		return;
+	}
+	else if (0 == strcmp(do1, "go") || 0 == strcmp(do1, "g")){
+		Go(do2);
+		return;
+	}
+	else if (0 == strcmp(do1, "look") || 0 == strcmp(do1, "l")){
+		Look(do2);
+		return;
+	}
+	else if (0 == strcmp(do1, "open") || 0 == strcmp(do1, "o")){
+		Open(do2);
+		return;
+	}
+	else if (0 == strcmp(do1, "close") || 0 == strcmp(do1, "c")){
+		Open(do2);
+		return;
+	}
+	else if (0 == strcmp(do1, "help") || 0 == strcmp(do1, "h")){
+		Help(do2);
+		return;
+	}
+	else if (0 == strcmp(do1, "quit") || 0 == strcmp(do1, "q")){
+		return;
+	}
+	else{
+		printf("wrong operation\n");
+	}
+	}*/

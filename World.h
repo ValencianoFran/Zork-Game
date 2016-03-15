@@ -18,9 +18,11 @@ public:
 	void CreatePlayer();
 	void CreateWorld();
 
+	int Direction(char []);
 	void Mayus(char []);
+	void Action(char [], char []);
 	void PrintScreen();
-	bool HandleInput(char input, int &);
+	void HandleInput(char []);
 };
 
 #endif

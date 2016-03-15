@@ -18,7 +18,8 @@ class Exit
 public:
 	char name[30];
 	char description[300];
-
+	bool close = false;
+	bool gate = false;
 	Exit();
 	Exit(const char* _name, const char* desc, Room* orig, Room* dest, const dir direc);
 	~Exit();

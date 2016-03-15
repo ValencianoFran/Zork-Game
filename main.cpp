@@ -4,6 +4,7 @@
 #include "World.h"
 #include "Exit.h"
 #include "Player.h"
+#define NUM_EXITS 16
 
 
 int main() {
@@ -22,7 +23,7 @@ int main() {
 		gets_s(direction, 20);
 		printf("%s", direction);
 		world.Mayus(direction);
-		exit = world.HandleInput(direction, pos);
+		exit = world.HandleInput(direction);
 	}
 
 	system("pause");
