@@ -23,6 +23,8 @@ public:
 	int Direction(char[]);
 	void Action(char[], char[]);
 	void Look(char[]);
+	void Close(char[]);
+	void Open(char[]);
 };
 
 #endif

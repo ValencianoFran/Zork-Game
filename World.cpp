@@ -238,6 +238,92 @@ void World::Look(char op[]) //Look the exit
 	}
 }
 
+void World::Open(char op[]) //Open doors
+{
+	int direc = INVALID;
+	int i = 0;
+	bool done = false;
+	direc = Direction(op);
+
+	if (direc == INVALID){
+		printf("Invalid direction\n");
+		return;
+	}
+	else
+	{
+		for (i = 0; i < NUM_EXITS; i++)
+		{
+
+			if (exits[i].origin->name == player->pos->name)
+			{
+				if (exits[i].direction == direc)
+				{
+					if (exits[i].gate == true) //check if there are a door
+					{
+						if (exits[i].close == true)
+							exits[i].close = false;
+						printf("\nThe door is open\n");
+						done = true;
+						break;
+					}
+
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+		if (done == false)
+		{
+			printf("\nThere is nothing to open or It's already open\n");
+		}
+	}
+}
+
+void World::Close(char op[]) //Close doors
+{
+	int direc = INVALID;
+	int i = 0;
+	bool finish = false;
+	direc = Direction(op);
+
+	if (direc == INVALID)
+	{
+		printf("Invalid direction\n");
+		return;
+	}
+	else
+	{
+		for (i = 0; i < NUM_EXITS; i++)
+		{
+
+			if (exits[i].origin->name == player->pos->name)
+			{
+				if (exits[i].direction == direc)
+				{
+					if (exits[i].gate == true) //check if there are a door
+					{
+						if (exits[i].close == false)
+							exits[i].close = true;
+						printf("The door is closed\n");
+						finish = true;
+						break;
+					}
+					else{
+						break;
+					}
+				}
+			}
+		}
+
+		if (finish == false){
+			printf("There is no doors to close or It's already close\n");
+		}
+	}
+}
+
+
 void World::Action(char do1[], char do2[]) //Do the action that the player input
 {
 
@@ -282,6 +368,21 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 	else if (strcmp(do1, "look") == 0 || strcmp(do1, "l") == 0)
 	{
 		Look(do2);
+		return;
+	}
+	else if (strcmp(do1, "open") == 0 || strcmp(do1, "o") == 0)
+	{
+		Open(do2);
+		return;
+	}
+	else if (strcmp(do1, "close") == 0 || strcmp(do1, "c") == 0)
+	{
+		Close(do2);
+		return;
+	}
+
+	else if (strcmp(do1, "quit") == 0 || strcmp(do1, "q") == 0)
+	{
 		return;
 	}
 	
