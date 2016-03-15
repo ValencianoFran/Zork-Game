@@ -17,11 +17,7 @@ int main() {
 	{
 		world.PrintScreen();
 		scanf_s("%c", &direction);
-<<<<<<< HEAD
 		exit = world.HandleInput(direction);
-=======
-		exit = world.HandleInput(&direction);
->>>>>>> origin/master
 	}
 
 	system("pause");
