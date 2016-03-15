@@ -10,17 +10,18 @@ int main() {
 	World world; 
 	world.CreateWorld();
 
-
 	bool exit = false;
-	char direction;
+	char direction[30];
 	int pos = 0;
+
+	printf("Introduce where you want to go <'n', 's', 'w', 'e', 'u', 'd'>\n\n");
 
 	while (exit!=1)
 	{
-		
-		printf("Introduce where you want to go <'n', 's', 'w', 'e', 'u', 'd'>\n\n");
 		world.PrintScreen();
-		scanf_s("%c", &direction);
+		gets_s(direction, 20);
+		printf("%s", direction);
+		world.Mayus(direction);
 		exit = world.HandleInput(direction, pos);
 	}
 

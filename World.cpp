@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+#include <ctime>
+#include <cmath>
+#include <windows.h>
 #include "World.h"
 #include "Room.h"
 #include "Exit.h"
@@ -117,17 +121,39 @@ void World::PrintScreen()
 {
 }
 
+void World::Mayus(char str[]){//this separates the sentence into two if possible
+	char operation1[10] = "";
+	char operation2[10] = "";
+	int i = 0, spaces = 0;
+	char *context;
 
+	while (str[i] != '\0') {//checks for spaces and remove uppercase
+		str[i] = (tolower(str[i]));
+		if (str[i] == ' ') spaces++;
+		i++;
+	}
+	if (spaces == 0){
+		strcpy_s(operation1, str);
+		strcpy_s(operation2, "\0");
+	}
+	else{
+		strcpy_s(operation1, strtok_s(str, " ", &context));
+		strcpy_s(operation2, strtok_s(NULL, " ", &context));
+	}
+
+}
 
 bool World::HandleInput(char input, int &position)
 {
 	bool ret = true;
 
 	int i, j;
-	// system("cls");
+	//system("cls");
+	fflush(stdin);
 
 
-	player->pos = (room + position);
+
+
 
 	switch (input)
 	{
@@ -143,16 +169,104 @@ bool World::HandleInput(char input, int &position)
 					{
 						position = j;
 						printf("You are in %s\n", player->pos);
-						return ret;
 					}
 				}
 			}
 		}
 		break;
+
+	case 's':
+		for (i = 0; i < 9; i++)
+		{
+			if ((exits + i)->origin == player->pos && (exits + i)->direction == south)
+			{
+				player->pos = (exits + i)->destination;
+				for (j = 0; j < 9; j++)
+				{
+					if ((exits + i)->destination == (room + j))
+					{
+						position = j;
+						printf("You are in %s\n", player->pos);
+					}
+				}
+			}
+		}
+		break;
+
+	case 'w':
+		for (i = 0; i < 9; i++)
+		{
+			if ((exits + i)->origin == player->pos && (exits + i)->direction == west)
+			{
+				player->pos = (exits + i)->destination;
+				for (j = 0; j < 9; j++)
+				{
+					if ((exits + i)->destination == (room + j))
+					{
+						position = j;
+						printf("You are in %s\n", player->pos);
+					}
+				}
+			}
+		}
+		break;
+
+	case 'e':
+		for (i = 0; i < 9; i++)
+		{
+			if ((exits + i)->origin == player->pos && (exits + i)->direction == east)
+			{
+				player->pos = (exits + i)->destination;
+				for (j = 0; j < 9; j++)
+				{
+					if ((exits + i)->destination == (room + j))
+					{
+						position = j;
+						printf("You are in %s\n%s\n", player->pos->name, player->pos->description);
+					}
+				}
+			}
+		}
+		break;
+	case 'd':
+		for (i = 0; i < 9; i++)
+		{
+			if ((exits + i)->origin == player->pos && (exits + i)->direction == down)
+			{
+				player->pos = (exits + i)->destination;
+				for (j = 0; j < 9; j++)
+				{
+					if ((exits + i)->destination == (room + j))
+					{
+						position = j;
+						printf("You are in %s\n", player->pos);
+					}
+				}
+			}
+		}
+		break;
+
+	case 'u':
+		for (i = 0; i < 9; i++)
+		{
+			if ((exits + i)->origin == player->pos && (exits + i)->direction == up)
+			{
+				player->pos = (exits + i)->destination;
+				for (j = 0; j < 9; j++)
+				{
+					if ((exits + i)->destination == (room + j))
+					{
+						position = j;
+						printf("You are in %s\n", player->pos);
+					}
+				}
+			}
+		}
+
+		break;
 	default:
 	{
 			   printf("You can't go that way\n");
-			   return ret;
 			   break;
 	}
 
@@ -177,94 +291,4 @@ strcpy_s((exits + 0)->name, "Wow there are a lot of palmtrees, it seems that the
 (exits + 0)->origin = (room + 0);
 (exits + 0)->destination = (room + 3);
 (exits + 0)->direction = north;
-
-//Palmtrees Island
-strcpy_s((exits + 0)->name, "Palmtrees Island");
-strcpy_s((exits + 0)->name, "Wow there are a lot of palmtrees, it seems that there are something on that one\n");
-(exits + 0)->origin = (room + 4);
-(exits + 0)->destination = (room + 3);
-(exits + 0)->direction = east;
-
-//Shore
-strcpy_s((exits + 1)->name, "Shore");
-strcpy_s((exits + 1)->name, "You are in a shore, you can try to do snorquel, explore with your boat or walk\n");
-(exits + 1)->origin = (room + 3);
-(exits + 1)->destination = (room + 0);
-(exits + 1)->direction = east;
-
-printf("%i\n", (exits + 0)->open);
-
-//Shore
-room[0]->north = "a";
-room[0]->south = "a";
-room[0]->east = "a";
-room[0]->weast = "a";
-room[0]->up = "n";
-room[0]->down = "a";
-
-//Depths
-room[1]->north = "n";
-room[1]->south = "n";
-room[1]->east = "n";
-room[1]->weast = "n";
-room[1]->up = "a";
-room[1]->down = "n";
-
-//Sea
-room[2]->north = "a";
-room[2]->south = "a";
-room[2]->east = "a";
-room[2]->weast = "a";
-room[2]->up = "n";
-room[2]->down = "a";
-
-//Palmtrees Island
-room[3]->north = "n";
-room[3]->south = "a";
-room[3]->east = "n";
-room[3]->weast = "n";
-room[3]->up = "a";
-room[3]->down = "n";
-
-//Palmtree
-room[4]->north = "n";
-room[4]->south = "n";
-room[4]->east = "n";
-room[4]->weast = "n";
-room[4]->down = "a";
-
-//Outside house
-room[5]->north = "n";
-room[5]->south = "n";
-room[5]->east = "a";
-room[5]->weast = "a";
-room[5]->up = "n";
-room[5]->down = "n";
-
-//House
-room[6]->north = "n";
-room[6]->south = "a";
-room[6]->east = "n";
-room[6]->weast = "n";
-room[6]->up = "n";
-room[6]->down = "n";
-
-//Shop
-room[7]->north = "a";
-room[7]->south = "a";
-room[7]->east = "n";
-room[7]->weast = "n";
-room[7]->up = "n";
-room[7]->down = "n";
-
-//Store
-room[8]->north = "a";
-room[8]->south = "n";
-room[8]->east = "n";
-room[8]->weast = "n";
-room[8]->up = "n";
-room[8]->down = "n";
 */
-
-
-

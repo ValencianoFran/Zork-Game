@@ -18,6 +18,7 @@ public:
 	void CreatePlayer();
 	void CreateWorld();
 
+	void Mayus(char []);
 	void PrintScreen();
 	bool HandleInput(char input, int &);
 };
