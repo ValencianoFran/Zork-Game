@@ -28,7 +28,6 @@ World::~World()
 void World::CreatePlayer()
 {
 	player->pos = room;
-	printf("%You are in %s\n", player->pos->name);
 }
 
 
@@ -204,6 +203,41 @@ void World::Go(char op[]) //Move player
 	}
 }
 
+void World::Look(char op[]) //Look the exit
+{
+	int direc = INVALID;
+	int  i = 0;
+	bool finish = false;
+	direc = Direction(op);
+
+	if (direc == INVALID)
+	{
+		printf("Invalid direction\n");
+		return;
+	}
+
+	else
+	{
+		for (i = 0; i < NUM_EXITS; i++)
+		{
+
+			if (exits[i].origin->name == player->pos->name)
+			{
+				if (exits[i].direction == direc)
+				{
+					printf("\nYou see %s\n%s ", exits[i].name, exits[i].description);
+					finish = true;
+					break;
+				}
+			}
+		}
+		if (finish == false)
+		{
+			printf("\nThere are nothing here\n");
+		}
+	}
+}
+
 void World::Action(char do1[], char do2[]) //Do the action that the player input
 {
 
@@ -243,6 +277,11 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 	else if (strcmp(do1, "go") == 0 || strcmp(do1, "g") == 0)
 	{
 		Go(do2);
+		return;
+	}
+	else if (strcmp(do1, "look") == 0 || strcmp(do1, "l") == 0)
+	{
+		Look(do2);
 		return;
 	}
 	

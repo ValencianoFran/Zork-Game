@@ -22,6 +22,7 @@ public:
 	void Go(char[]);
 	int Direction(char[]);
 	void Action(char[], char[]);
+	void Look(char[]);
 };
 
 #endif
