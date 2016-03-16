@@ -14,9 +14,9 @@ public:
 
 	World();
 	~World();
-	void Tutorial();
-	void CreatePlayer();
-	void CreateWorld();
+	void Tutorial() const;
+	void CreatePlayer() const;
+	void CreateWorld() const;
 
 	void Mayus(char[]);
 	void Go(char[]);

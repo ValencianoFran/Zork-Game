@@ -26,14 +26,14 @@ World::~World()
 	delete[] exits;
 }
 
-void World::CreatePlayer()
+void World::CreatePlayer() const
 {
 	player->pos = room;
 }
 
 
 
-void World::CreateWorld()
+void World::CreateWorld() const
 {
 	/*  -- Room name and description --   */
 
@@ -99,7 +99,6 @@ void World::CreateWorld()
 	//House - Outside House
 	exits[15].Init("Outside House\n", "\n", (room + 6), (room + 5), north);
 
-
 	CreatePlayer();
 }
 
@@ -111,7 +110,7 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 	int i = 0, spaces = 0;
 	char *context; // Necessary to do strtok
 
-	while (str[i] != '\0')
+	while (str[i] != '\0') 
 	{
 		str[i] = (tolower(str[i]));
 		if (str[i] == ' ') spaces++;
@@ -208,8 +207,8 @@ void World::Look(char op[]) //Look the exit
 {
 	int direc = INVALID;
 	int  i = 0;
-	bool finish = false;
-	direc = Direction(op);
+	bool finish = false;   //Check if go action is completed
+	direc = Direction(op); //Look if the direction is valid
 
 	if (direc == INVALID)
 	{
@@ -222,7 +221,7 @@ void World::Look(char op[]) //Look the exit
 		for (i = 0; i < NUM_EXITS; i++)
 		{
 
-			if (exits[i].origin->name == player->pos->name)
+			if (exits[i].origin->name == player->pos->name) //Compares the player position with the origin room of the exit
 			{
 				if (exits[i].direction == direc)
 				{
@@ -243,8 +242,8 @@ void World::Open(char op[]) //Open doors
 {
 	int direc = INVALID;
 	int i = 0;
-	bool done = false;
-	direc = Direction(op);
+	bool done = false;  //Check if go action is completed
+	direc = Direction(op);  //Check if direction is valid
 
 	if (direc == INVALID){
 		printf("Invalid direction\n");
@@ -255,13 +254,13 @@ void World::Open(char op[]) //Open doors
 		for (i = 0; i < NUM_EXITS; i++)
 		{
 
-			if (exits[i].origin->name == player->pos->name)
+			if (exits[i].origin->name == player->pos->name) //Compares the player position with the origin room of the exit
 			{
 				if (exits[i].direction == direc)
 				{
 					if (exits[i].gate == true)
 					{
-						if (exits[i].close == true)
+						if (exits[i].close == true) // If the door is closed, open it
 							exits[i].close = false;
 						printf("\nThe door is open\n");
 						done = true;
@@ -282,7 +281,7 @@ void World::Open(char op[]) //Open doors
 	}
 }
 
-void World::Close(char op[]) //Close doors
+void World::Close(char op[]) //Close doors, same function of Open, but it closes the door
 {
 	int direc = INVALID;
 	int i = 0;
@@ -319,12 +318,12 @@ void World::Close(char op[]) //Close doors
 		}
 
 		if (finish == false){
-			printf("There is no doors to close or It's already close\n");
+			printf("There is no doors to close or It's already closed\n");
 		}
 	}
 }
-
-void World::Tutorial()
+ 
+void World::Tutorial() const //Controls of the game
 {
 	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tDefault action is 'go' if you only introduce the direction.\n");
 }
@@ -334,6 +333,7 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 {
 
 	/*With 1 word input*/
+	/*Go actions (every 'if' does the same function)*/
 	if (strcmp(do1, "north") == 0 || strcmp(do1, "n") == 0)
 	{
 		Go(do1);
@@ -389,7 +389,7 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 	}
 
 	/*Quit and help*/
-	else if (strcmp(do1, "quit") == 0 || strcmp(do1, "q") == 0)
+	else if (strcmp(do1, "quit") == 0)
 	{
 		return;
 	}
@@ -399,6 +399,7 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 		return;
 	}
 	
+	/*If the user introduces invalid action*/
 	else{
 		printf("I don't understand\n");
 	}
