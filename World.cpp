@@ -92,7 +92,7 @@ void World::CreateWorld() const
 	exits[13].Init("Shop\n", "There must be interesting things to buy\n", (room + 8), (room + 7), up);
 
 	//Outside House - House
-	exits[14].Init("House\n", "\n", (room + 5), (room + 6), south);
+	exits[14].Init("House\n", "There is a pretty garden!\n", (room + 5), (room + 6), south);
 	exits[14].gate = true;
 	exits[14].close = true;
 
