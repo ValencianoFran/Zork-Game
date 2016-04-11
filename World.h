@@ -21,8 +21,8 @@ public:
 	void Mayus(char[]);
 	void Go(char[]);
 	int Direction(char[]);
-	void Action(char[], char[]);
-	void Look(const char[]);
+	void Action(char[], char[], char[], char[]);
+	void Look(char[]);
 	void Close(char[]);
 	void Open(char[]);
 

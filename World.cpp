@@ -107,6 +107,8 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 {
 	char word1[20] = "";
 	char word2[20] = "";
+	char word3[20] = "";
+	char word4[20] = "";
 	int i = 0, spaces = 0;
 	char *context; // Necessary to do strtok
 
@@ -120,13 +122,17 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 	{   //Check if there are spaces to write a second word
 		strcpy_s(word1, str);
 		strcpy_s(word2, "\0");
+		strcpy_s(word3, "\0");
+		strcpy_s(word4, "\0");
 	}
 	else
 	{
 		strcpy_s(word1, strtok_s(str, " ", &context));
 		strcpy_s(word2, strtok_s(NULL, " ", &context));
+		strcpy_s(word3, strtok_s(NULL, " ", &context));
+		strcpy_s(word4, strtok_s(NULL, " ", &context));
 	}
-	Action(word1, word2); // Future method witch will send the information to go, look, open or close
+	Action(word1, word2, word3, word4); // Future method witch will send the information to go, look, open or close
 }
 
 int World::Direction(char op[]) //Check the direction is valid
@@ -203,7 +209,7 @@ void World::Go(char op[]) //Move player
 	}
 }
 
-void World::Look(const char op[]) //Look the exit
+void World::Look(char op[]) //Look the exit
 {
 	int direc = INVALID;
 	int  i = 0;
@@ -329,7 +335,7 @@ void World::Tutorial() const //Controls of the game
 }
 
 
-void World::Action(char do1[], char do2[]) //Do the action that the player input
+void World::Action(char do1[], char do2[], char do3[], char do4[]) //Do the action that the player input
 {
 
 	/*With 1 word input*/
@@ -399,6 +405,50 @@ void World::Action(char do1[], char do2[]) //Do the action that the player input
 		return;
 	}
 	
+	else if (strcmp(do1, "pick") == 0)
+	{
+		printf("I will pick a item\n");
+		//Pick(do2);
+		return;
+	}
+
+	else if (strcmp(do1, "drop") == 0)
+	{
+		printf("I will drop a item\n");
+		//Drop(do2);
+		return;
+	}
+
+	else if (strcmp(do1, "inventory") == 0 || strcmp(do1, "inv") == 0 || strcmp(do1, "i") == 0)
+	{
+		printf("I will show the inventory\n");
+		//Inventory(do2);
+		return;
+	}
+
+	else if (strcmp(do1, "equip") == 0)
+	{
+		printf("I will equip a item\n");
+		//Equip(do2);
+		return;
+	}
+
+	else if (strcmp(do1, "unequip") == 0)
+	{
+		printf("I will unequip a item\n");
+		//Drop(do2);
+		return;
+	}
+
+	else if (strcmp(do1, "put") == 0 && strcmp(do3, "into") == 0)
+	{
+		printf("I will put a item into another item\n");
+		//Put(do2);
+		return;
+	}
+
+	
+
 	/*If the user introduces invalid action*/
 	else{
 		printf("I don't understand\n");
