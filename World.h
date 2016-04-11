@@ -22,7 +22,7 @@ public:
 	void Go(char[]);
 	int Direction(char[]);
 	void Action(char[], char[]);
-	void Look(char[]);
+	void Look(const char[]);
 	void Close(char[]);
 	void Open(char[]);
 

@@ -203,7 +203,7 @@ void World::Go(char op[]) //Move player
 	}
 }
 
-void World::Look(char op[]) //Look the exit
+void World::Look(const char op[]) //Look the exit
 {
 	int direc = INVALID;
 	int  i = 0;
