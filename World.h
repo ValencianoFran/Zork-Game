@@ -4,6 +4,7 @@
 #include "room.h"
 #include "player.h"
 #include "exit.h"
+#include "entity.h"
 
 class World
 {
