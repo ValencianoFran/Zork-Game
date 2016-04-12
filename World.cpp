@@ -125,12 +125,25 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 		strcpy_s(word3, "\0");
 		strcpy_s(word4, "\0");
 	}
-	else
+	if (spaces == 1)
+	{
+		strcpy_s(word1, strtok_s(str, " ", &context));
+		strcpy_s(word2, strtok_s(NULL, " ", &context));
+		strcpy_s(word3, "\0");
+		strcpy_s(word4, "\0");
+	}
+	
+	if (spaces == 3)
 	{
 		strcpy_s(word1, strtok_s(str, " ", &context));
 		strcpy_s(word2, strtok_s(NULL, " ", &context));
 		strcpy_s(word3, strtok_s(NULL, " ", &context));
 		strcpy_s(word4, strtok_s(NULL, " ", &context));
+	}
+	else
+	{
+		printf("I dont understand\n");
+		return 0;
 	}
 	Action(word1, word2, word3, word4); // Future method witch will send the information to go, look, open or close
 }
