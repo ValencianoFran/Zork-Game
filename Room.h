@@ -1,12 +1,11 @@
 #ifndef _ROOMS__
 #define _ROOMS__
 
-class Room
+class Room : public Entity
 {
 public:
-	char name[25];
-	char description[300];
-
+	Vector <Room*> room;
+	Vector <Exit*> exit;
 	Room();
 	Room(const char* _name, const char* desc);
 	~Room();
