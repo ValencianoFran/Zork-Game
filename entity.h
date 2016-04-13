@@ -7,15 +7,16 @@
 #include "vector.h"
 #include "string.h"
 
+
 class Entity
 {
 public:
 
 	String name;
 	String description;
-	
 
-	Entity(const char*, const char*);
+	Entity();
+	Entity(const char* _name, const char* _description);
 	void Look();
 	void Remove();
 	void Insert();

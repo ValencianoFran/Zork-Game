@@ -5,19 +5,23 @@
 #include "player.h"
 #include "exit.h"
 #include "entity.h"
+#include "vector.h"
+#include "string.h"
 
-class World
+
+class World : public Entity
 {
 public:
-	Room* room;
+	Vector <Room*> room;
+	Vector <Exit*> exit;
 	Player* player;
-	Exit* exits;
+	
 
 	World();
 	~World();
 	void Tutorial() const;
 	void CreatePlayer() const;
-	void CreateWorld() const;
+	void CreateWorld();
 
 	void Mayus(char[]);
 	void Go(char[]);

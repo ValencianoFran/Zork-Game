@@ -7,13 +7,24 @@
 
 #define NUM_EXITS 16
 
-Entity::Entity(const char* _name, const char* _desc)
+Entity::Entity()
+{}
+
+Entity::Entity(const char* _name, const char* _description)
 {
 	name = _name;
-	description = _desc;
+	description = _description;
 }
 
 Entity::~Entity()
 {
-
 }
+
+void Entity::Look()
+{}
+
+void Entity::Insert()
+{}
+
+void Entity::Remove()
+{}

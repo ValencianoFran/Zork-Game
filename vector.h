@@ -2,7 +2,7 @@
 #define STRUCT__
 
 template<class TYPE>
-class Vector
+class Vector : public Entity
 {
 private:
 
@@ -73,7 +73,7 @@ public:
 	}
 
 	//[]
-	TYPE operator[](const TYPE& number) const
+	const TYPE &operator[](const TYPE& number) const
 	{
 		return vec[number];
 	}
@@ -81,25 +81,25 @@ public:
 	//v[5] = 0
 
 	//EMPTY(?
-	bool empty()
+	bool Empty()
 	{
 		return num_elements == 0;
 	}
 
 	//CLEAN
-	void clean()
+	void Slean()
 	{
 		num_elements = 0;
 	}
 
 	//SIZE
-	TYPE size()
+	TYPE Size()
 	{
 		return num_elements;
 	}
 
 	//CAPACITY
-	TYPE capacity()
+	TYPE Capacity()
 	{
 		return capacity;
 	}
@@ -114,7 +114,7 @@ public:
 	}
 
 	//SHRINK TO FIT
-	void shrink_to_fit()
+	void Shrink_to_fit()
 	{
 		if (capacity > num_elements)
 		{

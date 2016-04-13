@@ -8,47 +8,115 @@
 #include "world.h"
 #include "room.h"
 #include "exit.h"
+#include "entity.h"
+#include "string.h"
+#include "vector.h"
+#include "player.h"
 
 #define NUM_EXITS 16
 #define INVALID -1
 
 World::World()
 {
-	room = new Room[9];     // 9 rooms
-	player = new Player; // 1 player
-	exits = new Exit[NUM_EXITS];
 }
 
 World::~World()
 {
-	delete[] room;
-	delete player;
-	delete[] exits;
 }
 
 void World::CreatePlayer() const
 {
-	player->pos = room;
+	player->position = room[0];
 }
 
 
 
-void World::CreateWorld() const
+void World::CreateWorld()
 {
+	
 	/*  -- Room name and description --   */
 
-	/*Create rooms*/
-	room[0].Init("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n");
-	room[1].Init("Depths", "It seems to be a pearl inside the oyster\n");
-	room[2].Init("Sea", "There are sharks!! I will try to come here later with something to kill them\n");
-	room[3].Init("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n");
-	room[4].Init("Palmtree", "There are a monkey! what should i do now?");
-	room[5].Init("Outside house", "I can see a cool house in south, but the door is closed\n");
-	room[6].Init("House", "This house is so extravagant\nThere's a man\n");
-	room[7].Init("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n");
-	room[8].Init("Store", "Here is the inventory of the shop, I could catch something borrowed");
+	// ROOM 0
+	room.push_back(new Room("Shore", "You are in a shore, you can try to do snorquel going down, or explore others directions\n"));
+	
+	// ROOM 1
+	room.push_back(new Room("Depths", "It seems to be a pearl inside the oyster\n"));
+
+	// ROOM 2
+	room.push_back(new Room("Sea", "There are sharks!! I will try to come here later with something to kill them\n"));
+
+	// ROOM 3
+	room.push_back(new Room("Palmtrees Island", "Wow there are a lot of palmtrees, it seems that there are something on that one on the east\n"));
+
+	// ROOM 4
+	room.push_back(new Room("Palmtree", "There are a monkey! what should i do now?"));
+
+	// ROOM 5
+	room.push_back(new Room("Outside house", "I can see a cool house in south, but the door is closed\n"));
+
+	// ROOM 6
+	room.push_back(new Room("House", "This house is so extravagant\nThere's a man\n"));
+
+	// ROOM 7
+	room.push_back(new Room("Shop", "Maybe i should buy something to kill the sharks and leave this islands.\nThere are something down stairs\n"));
+
+	// ROOM 8
+	room.push_back(new Room("Store", "Here is the inventory of the shop, I could catch something borrowed"));
+
 
 	/*  -- EXITS --    */
+
+	//EXIT 0
+	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room[0], room[3], north));
+
+	//EXIT 1
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[3], room[0], south));
+
+	//EXIT 2
+	exit.push_back(new Exit("Palmtree\n", "Maybe there are something in the top of that palmtree\n", room[3], room[4], east));
+
+	//EXIT 3
+	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room[4], room[3], west));
+
+	//EXIT 4
+	exit.push_back(new Exit("Sea\n", "There are a sea, seems dangerous\n", room[0], room[2], west));
+
+	//EXIT 5
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[2], room[0], east));
+
+	//EXIT 6
+	exit.push_back(new Exit("Depths\n", "It seems deep\n", room[1], Depths, down));
+
+	//EXIT 7
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[1], room[0], up));
+
+	//EXIT 8
+	exit.push_back(new Exit("Outside House\n", "There are a pretty garden, i should take a look\n", room[0], room[5], east));
+
+	//EXIT 9
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[5], room[0], west));
+
+	//EXIT 10
+	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[0], room[7], south));
+
+	//EXIT 11
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[7], room[0], north));
+
+	//EXIT 12
+	exit.push_back(new Exit("Store\n", "What would be down stairs?\n", room[7], room[8], down));
+
+	//EXIT 13
+	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[8], room[7], up));
+
+	//EXIT 14
+	exit.push_back(new Exit("House\n", "There is a pretty garden!\n", room[5], room[6], south));
+	//ACTIVE GATES
+
+	//EXIT 15
+	exit.push_back(new Exit("Outside House\n", "\n", room[6], room[5], north));
+
+	
+	/*
 	//Shore - Palmtrees Island
 	exits[0].Init("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room, (room + 3), north);
 
@@ -98,6 +166,7 @@ void World::CreateWorld() const
 
 	//House - Outside House
 	exits[15].Init("Outside House\n", "\n", (room + 6), (room + 5), north);
+	*/
 
 	CreatePlayer();
 }
@@ -146,7 +215,7 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 
 int World::Direction(char op[]) //Check the direction is valid
 {
-	if ((strcmp(op, "north")) == 0 || (strcmp(op, "n") == 0))
+	if (op == "north" || (strcmp(op, "n") == 0))
 	{
 		return 0;
 	}
