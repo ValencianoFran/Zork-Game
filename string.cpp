@@ -1,7 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "string.h"
-#include <string.h>
+#include<string.h>
+#include<stdio.h>
+#include"string.h"
+#include"vector.h"
+#include <iostream>
+#include <ctime>
+#include <ctype.h>
+#include <cmath>
+#include <windows.h>
+
 
 //VOID CONSTRUCTOR
 String::String()
@@ -44,10 +50,19 @@ bool String::empty() const
 }
 
 //== OPERATOR
-const bool String::operator==(String other) const
+
+//compare 2 string classes
+bool String::operator==(const String &other) const
 {
-	return	(strcmp(my_string, other.my_string) == 0);
+	return _stricmp(my_string, other.my_string) == 0;
 }
+
+//compare string(class) - string
+bool String::operator==(const char *string) const
+{
+	return _stricmp(my_string, string) == 0;
+}
+
 
 //= OPERATOR
 void String::operator=(const String& other)
@@ -62,11 +77,25 @@ void String::operator=(const String& other)
 	strcpy_s(my_string, max_size, other.my_string);
 }
 
+//copy string(class) - string
+
+void String::operator=(const char* other)
+{
+	unsigned int size = strlen(other) + 1;
+	if (size > max_size)
+	{
+		delete[] my_string;
+		my_string = new char[size];
+		max_size = size;
+	}
+	strcpy_s(my_string, max_size, other);
+}
+
 //OPERATOR +=
 void String::operator+=(const String& other)
 {
 	char* temp = nullptr;
-	int size = other.lenght() + max_size;
+	unsigned int size = other.lenght() + max_size;
 	temp = new char[max_size];
 	strcpy_s(temp, max_size, my_string);
 
@@ -91,6 +120,57 @@ String String::operator+(const String& other)
 	strcpy_s(new_str.my_string, size, other.my_string);
 	strcpy_s(new_str.my_string, size, other.my_string);
 	return new_str;
+}
+
+//!= OPERATOR
+
+bool String::operator!=(const String& other) const
+{
+	return _stricmp(my_string, other.my_string) != 0;
+}
+
+bool String::operator!=(const char* other) const
+{
+	return _stricmp(my_string, other) != 0;
+}
+
+char String::return_word(const int& number) const
+{
+	return my_string[number];
+}
+
+//TOKEN 
+void String::Token(String &str, Vector<String> &strings){
+	char* single = nullptr;
+	char* temp = nullptr;
+	single = strtok_s(str.my_string, " ", &temp);
+	while (single != NULL)
+	{
+		str.my_string = single;
+		strings.push_back(str);
+		single = strtok_s(NULL, " ", &temp);
+	}
+}
+
+void String::tolower_method()
+{
+	int i = 0;
+	while (my_string[i] != '\0')
+	{
+		*(my_string + i) = tolower(my_string[i]);
+	}
+
+}
+int const String::spaces() const
+{
+	int i = 0;
+	int spaces = 0;
+	while (my_string[i] != '\0')
+	{
+		if (my_string[i] == ' ') spaces++;
+		i++;
+	}
+	return spaces;
 }
 
 //DESTRUCTOR

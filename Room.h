@@ -1,9 +1,7 @@
 #ifndef _ROOMS__
 #define _ROOMS__
 
-#include "entity.h"
-#include "vector.h"
-#include "string.h"
+#include"Entity.h"
 
 class Room : public Entity
 {

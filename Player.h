@@ -1,13 +1,15 @@
 #ifndef _PLAYER__
 #define _PLAYER__
-#include "room.h"
-#include "vector.h"
-#include "entity.h"
 
-class Player : public Entity
+#include "world.h"
+#include "Entity.h"
+#include "items.h"
+
+class Player :public Entity
 {
 public:
 	Room* position;
+	Player();
 	Player(int, int, Room*);
 	int hp;
 	int damage;

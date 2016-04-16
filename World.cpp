@@ -1,23 +1,19 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <iostream>
 #include <ctime>
 #include <cmath>
 #include <windows.h>
-#include "world.h"
-#include "room.h"
-#include "exit.h"
-#include "entity.h"
-#include "string.h"
-#include "vector.h"
-#include "player.h"
+#include"world.h"
+#include<stdio.h>
+#include<string.h>
+
 
 #define NUM_EXITS 16
 #define INVALID -1
 
 World::World()
 {
+	player = new Player;
 }
 
 World::~World()
@@ -67,139 +63,83 @@ void World::CreateWorld()
 	/*  -- EXITS --    */
 
 	//EXIT 0
-	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room[0], room[3], north));
+	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room[0], room[3], north, false));
 
 	//EXIT 1
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[3], room[0], south));
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[3], room[0], south, false));
 
 	//EXIT 2
-	exit.push_back(new Exit("Palmtree\n", "Maybe there are something in the top of that palmtree\n", room[3], room[4], east));
+	exit.push_back(new Exit("Palmtree\n", "Maybe there are something in the top of that palmtree\n", room[3], room[4], east, false));
 
 	//EXIT 3
-	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room[4], room[3], west));
+	exit.push_back(new Exit("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room [4], room[3], west, false));
 
 	//EXIT 4
-	exit.push_back(new Exit("Sea\n", "There are a sea, seems dangerous\n", room[0], room[2], west));
+	exit.push_back(new Exit("Sea\n", "There are a sea, seems dangerous\n", room[0], room[2], west, false));
 
 	//EXIT 5
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[2], room[0], east));
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[2], room[0], east, false));
 
 	//EXIT 6
-	exit.push_back(new Exit("Depths\n", "It seems deep\n", room[1], Depths, down));
+	exit.push_back(new Exit("Depths\n", "It seems deep\n", room[0], room[1], down, false));
 
 	//EXIT 7
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[1], room[0], up));
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[1], room[0], up, false));
 
 	//EXIT 8
-	exit.push_back(new Exit("Outside House\n", "There are a pretty garden, i should take a look\n", room[0], room[5], east));
+	exit.push_back(new Exit("Outside House\n", "There are a pretty garden, i should take a look\n", room[0], room[5], east, false));
 
 	//EXIT 9
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[5], room[0], west));
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[5], room[0], west, false));
 
 	//EXIT 10
-	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[0], room[7], south));
+	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[0], room[7], south, false));
 
 	//EXIT 11
-	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[7], room[0], north));
+	exit.push_back(new Exit("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", room[7], room[0], north, false));
 
 	//EXIT 12
-	exit.push_back(new Exit("Store\n", "What would be down stairs?\n", room[7], room[8], down));
+	exit.push_back(new Exit("Store\n", "What would be down stairs?\n", room[7], room[8], down, false));
 
 	//EXIT 13
-	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[8], room[7], up));
+	exit.push_back(new Exit("Shop\n", "There must be interesting things to buy\n", room[8], room[7], up, false));
 
 	//EXIT 14
-	exit.push_back(new Exit("House\n", "There is a pretty garden!\n", room[5], room[6], south));
-	//ACTIVE GATES
+	exit.push_back(new Exit("House\n", "There is a pretty garden!\n", room[5], room[6], south, true));
 
 	//EXIT 15
-	exit.push_back(new Exit("Outside House\n", "\n", room[6], room[5], north));
+	exit.push_back(new Exit("Outside House\n", "\n", room[6], room[5], north, false));
 
-	
-	/*
-	//Shore - Palmtrees Island
-	exits[0].Init("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", room, (room + 3), north);
-
-	//Palmtrees Island - Shore
-	exits[1].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 3), (room), south);
-
-	//Palmtrees Island - Monkey
-	exits[2].Init("Palmtree\n", "Maybe there are something in the top of that palmtree\n", (room + 3), (room + 4), east);
-
-	//Monkey - Palmtrees Island
-	exits[3].Init("Palmtrees Island\n", "There are a lot of trees, seems interesting\n", (room + 4), (room + 3), west);
-
-	//Shore - Sea
-	exits[4].Init("Sea\n", "There are a sea, seems dangerous\n", (room), (room + 2), west);
-
-	//Sea - Shore
-	exits[5].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 2), (room), east);
-
-	//Shore - Depths
-	exits[6].Init("Depths\n", "It seems deep\n", (room), (room + 1), down);
-
-	//Depths - Shore
-	exits[7].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 1), (room), up);
-
-	//Shore - Outside House
-	exits[8].Init("Outside House\n", "There are a pretty garden, i should take a look\n", (room), (room + 5), east);
-
-	//Outside House - Shore
-	exits[9].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 5), (room), west);
-
-	//Shore - Shop
-	exits[10].Init("Shop\n", "There must be interesting things to buy\n", (room), (room + 7), south);
-
-	//Shop - Shore
-	exits[11].Init("Shore\n", "There is where I begin this adventure, i should try to do snorquel\n", (room + 7), (room), north);
-
-	//Shop - Store
-	exits[12].Init("Store\n", "What would be down stairs?\n", (room + 7), (room + 8), down);
-
-	//Store - Shop
-	exits[13].Init("Shop\n", "There must be interesting things to buy\n", (room + 8), (room + 7), up);
-
-	//Outside House - House
-	exits[14].Init("House\n", "There is a pretty garden!\n", (room + 5), (room + 6), south);
-	exits[14].gate = true;
-	exits[14].close = true;
-
-	//House - Outside House
-	exits[15].Init("Outside House\n", "\n", (room + 6), (room + 5), north);
-	*/
 
 	CreatePlayer();
 }
 
 
-void World::Mayus(char str[])//Transform capital letters to lowercase and iniciate the loop with Action
+void World::Mayus(String& str) const//Transform capital letters to lowercase and iniciate the loop with Action
 {
-	char word1[20] = "";
-	char word2[20] = "";
-	char word3[20] = "";
-	char word4[20] = "";
+	String word1("");
+	String word2("");
+	String word3("");
+	String word4("");
 	int i = 0, spaces = 0;
 	char *context; // Necessary to do strtok
 
-	while (str[i] != '\0') 
-	{
-		str[i] = (tolower(str[i]));
-		if (str[i] == ' ') spaces++;
-		i++;
-	}
+	str.tolower_method();
+	spaces = str.spaces();
+	
 	if (spaces == 0)
 	{   //Check if there are spaces to write a second word
-		strcpy_s(word1, str);
-		strcpy_s(word2, "\0");
-		strcpy_s(word3, "\0");
-		strcpy_s(word4, "\0");
+		word1 = str;
+		word2 = "\0";
+		word3 = "\0";
+		word4 = "\0";
 	}
 	if (spaces == 1)
 	{
 		strcpy_s(word1, strtok_s(str, " ", &context));
 		strcpy_s(word2, strtok_s(NULL, " ", &context));
-		strcpy_s(word3, "\0");
-		strcpy_s(word4, "\0");
+		word3 = "\0";
+		word4 = "\0";
 	}
 	
 	if (spaces == 3)
@@ -213,29 +153,30 @@ void World::Mayus(char str[])//Transform capital letters to lowercase and inicia
 	Action(word1, word2, word3, word4); // Future method witch will send the information to go, look, open or close
 }
 
-int World::Direction(char op[]) //Check the direction is valid
+int World::Direction(const String& op) //Check the direction is valid
 {
-	if (op == "north" || (strcmp(op, "n") == 0))
+
+	if (op == "north" || op == "n")
 	{
 		return 0;
 	}
-	if ((strcmp(op, "south") == 0) || (strcmp(op, "s") == 0))
+	if (op == "south" || op == "s")
 	{
 		return 1;
 	}
-	if ((strcmp(op, "east") == 0) || (strcmp(op, "e") == 0))
+	if (op == "east" || op == "e")
 	{
 		return 2;
 	}
-	if ((strcmp(op, "west") == 0) || (strcmp(op, "w") == 0))
+	if (op == "west" || op == "w")
 	{
 		return 3;
 	}
-	if ((strcmp(op, "up") == 0) || (strcmp(op, "u") == 0))
+	if (op == "up" || op == "u")
 	{
 		return 4;
 	}
-	if ((strcmp(op, "down") == 0) || (strcmp(op, "d") == 0))
+	if (op == "down" || op == "d")
 	{
 		return 5;
 	}
@@ -243,7 +184,7 @@ int World::Direction(char op[]) //Check the direction is valid
 }
 
 
-void World::Go(char op[]) //Move player
+void World::Go(const String& op) //Move player
 {
 	int direc = INVALID;
 	int  i = 0;
@@ -260,19 +201,19 @@ void World::Go(char op[]) //Move player
 	{
 		for (i = 0; i < NUM_EXITS; i++)
 		{
-			if (exits[i].origin->name == player->pos->name)
+			if (exit[i]->origin->name == player->position->name)
 			{
-				if (exits[i].direction == direc)
+				if (exit[i]->direction == direc)
 				{
-					if (exits[i].close == true)
+					if (exit[i]->close == true)
 					{
 						printf("The door is closed\n");
 						finish = true;
 						break;
 					}
 					else{
-						player->pos = exits[i].destination;
-						printf("\nYou are in %s\n\n%s \n", player->pos->name, player->pos->description);
+						player->position = exit[i]->destination;
+						printf("\nYou are in %s\n\n%s \n", player->position->name.c_str(), player->position->description.c_str());
 
 						finish = true;
 						break;
@@ -287,7 +228,7 @@ void World::Go(char op[]) //Move player
 	}
 }
 
-void World::Look(char op[]) //Look the exit
+void World::Look(const String& op) //Look the exit
 {
 	int direc = INVALID;
 	int  i = 0;
@@ -305,11 +246,11 @@ void World::Look(char op[]) //Look the exit
 		for (i = 0; i < NUM_EXITS; i++)
 		{
 
-			if (exits[i].origin->name == player->pos->name) //Compares the player position with the origin room of the exit
+			if (exit[i]->origin->name == player->position->name) //Compares the player position with the origin room of the exit
 			{
-				if (exits[i].direction == direc)
+				if (exit[i]->direction == direc)
 				{
-					printf("\nYou see %s\n%s ", exits[i].name, exits[i].description);
+					printf("\nYou see %s\n%s ", exit[i]->name.c_str(), exit[i]->description.c_str());
 					finish = true;
 					break;
 				}
@@ -322,7 +263,7 @@ void World::Look(char op[]) //Look the exit
 	}
 }
 
-void World::Open(char op[]) //Open doors
+void World::Open(const String& op) //Open doors
 {
 	int direc = INVALID;
 	int i = 0;
@@ -338,14 +279,13 @@ void World::Open(char op[]) //Open doors
 		for (i = 0; i < NUM_EXITS; i++)
 		{
 
-			if (exits[i].origin->name == player->pos->name) //Compares the player position with the origin room of the exit
+			if (exit[i]->origin->name == player->position->name) //Compares the player position with the origin room of the exit
 			{
-				if (exits[i].direction == direc)
+				if (exit[i]->direction == direc)
 				{
-					if (exits[i].gate == true)
-					{
-						if (exits[i].close == true) // If the door is closed, open it
-							exits[i].close = false;
+					if (exit[i]->close == true)
+					{		// If the door is closed, open it
+						exit[i]->close = false;
 						printf("\nThe door is open\n");
 						done = true;
 						break;
@@ -365,7 +305,7 @@ void World::Open(char op[]) //Open doors
 	}
 }
 
-void World::Close(char op[]) //Close doors, same function of Open, but it closes the door
+void World::Close(const String& op) //Close doors, same function of Open, but it closes the door
 {
 	int direc = INVALID;
 	int i = 0;
@@ -382,14 +322,13 @@ void World::Close(char op[]) //Close doors, same function of Open, but it closes
 		for (i = 0; i < NUM_EXITS; i++)
 		{
 
-			if (exits[i].origin->name == player->pos->name)
+			if (exit[i]->origin->name == player->position->name)
 			{
-				if (exits[i].direction == direc)
+				if (exit[i]->direction == direc)
 				{
-					if (exits[i].gate == true)
+					if (exit[i]->close == true)
 					{
-						if (exits[i].close == false)
-							exits[i].close = true;
+						exit[i]->close = false;
 						printf("The door is closed\n");
 						finish = true;
 						break;
@@ -413,37 +352,36 @@ void World::Tutorial() const //Controls of the game
 }
 
 
-void World::Action(char do1[], char do2[], char do3[], char do4[]) //Do the action that the player input
+void World::Action(const String& do1, const String& do2, const String& do3, const String& do4) //Do the action that the player input
 {
-
 	/*With 1 word input*/
 	/*Go actions (every 'if' does the same function)*/
-	if (strcmp(do1, "north") == 0 || strcmp(do1, "n") == 0)
+	if (do1 == "north" || do1 == "n")
 	{
 		Go(do1);
 		return;
 	}
-	if (strcmp(do1, "south") == 0 || strcmp(do1, "s") == 0)
+	if (do1 == "south" || do1 == "s")
 	{
 		Go(do1);
 		return;
 	}
-	if (strcmp(do1, "east") == 0 || strcmp(do1, "e") == 0)
+	if (do1 == "east" || do1 == "e")
 	{
 		Go(do1);
 		return;
 	}
-	if (strcmp(do1, "west") == 0 || strcmp(do1, "w") == 0)
+	if (do1 == "west" || do1 == "w")
 	{
 		Go(do1);
 		return;
 	}
-	if (strcmp(do1, "up") == 0 || strcmp(do1, "u") == 0)
+	if (do1 == "up" || do1 == "u")
 	{
 		Go(do1);
 		return;
 	}
-	if (strcmp(do1, "down") == 0 || strcmp(do1, "d") == 0)
+	if (do1 == "down" || do1 == "d")
 	{
 		Go(do1);
 		return;
@@ -451,74 +389,75 @@ void World::Action(char do1[], char do2[], char do3[], char do4[]) //Do the acti
 	
 
 	/*With 2 words input*/
-	else if (strcmp(do1, "go") == 0 || strcmp(do1, "g") == 0)
+	else if (do1 == "go" || do1 == "g")
 	{
 		Go(do2);
 		return;
 	}
-	else if (strcmp(do1, "look") == 0 || strcmp(do1, "l") == 0)
+
+	else if (do1 == "look" || do1 == "l")
 	{
 		Look(do2);
 		return;
 	}
-	else if (strcmp(do1, "open") == 0 || strcmp(do1, "o") == 0)
+	else if (do1 == "open" || do1 == "o")
 	{
 		Open(do2);
 		return;
 	}
-	else if (strcmp(do1, "close") == 0 || strcmp(do1, "c") == 0)
+	else if (do1 == "close" || do1 == "c")
 	{
 		Close(do2);
 		return;
 	}
 
 	/*Quit and help*/
-	else if (strcmp(do1, "quit") == 0)
+	else if (do1 == "quit")
 	{
 		return;
 	}
-	else if (strcmp(do1, "help") == 0 || strcmp(do1, "h") == 0)
+	else if (do1 == "help" || do1 == "h")
 	{
 		Tutorial();
 		return;
 	}
 	
-	else if (strcmp(do1, "pick") == 0)
+	else if (do1 == "pick")
 	{
 		printf("I will pick a item\n");
 		//Pick(do2);
 		return;
 	}
 
-	else if (strcmp(do1, "drop") == 0)
+	else if (do1 == "drop")
 	{
 		printf("I will drop a item\n");
 		//Drop(do2);
 		return;
 	}
 
-	else if (strcmp(do1, "inventory") == 0 || strcmp(do1, "inv") == 0 || strcmp(do1, "i") == 0)
+	else if (do1 == "inventory" || do1 == "inv" || do1 == "i")
 	{
 		printf("I will show the inventory\n");
 		//Inventory(do2);
 		return;
 	}
 
-	else if (strcmp(do1, "equip") == 0)
+	else if (do1 == "equip")
 	{
 		printf("I will equip a item\n");
 		//Equip(do2);
 		return;
 	}
 
-	else if (strcmp(do1, "unequip") == 0)
+	else if (do1 == "unequip")
 	{
 		printf("I will unequip a item\n");
 		//Drop(do2);
 		return;
 	}
 
-	else if (strcmp(do1, "put") == 0 && strcmp(do3, "into") == 0)
+	else if (do1 == "put" && do3 == "into")
 	{
 		printf("I will put a item into another item\n");
 		//Put(do2);

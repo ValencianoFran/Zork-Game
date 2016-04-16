@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "world.h"
-#include "exit.h"
-#include "player.h"
+#include"world.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
 
 
 int main() {
+	fflush(stdin);
 	World world;
 	world.CreateWorld(); //Create the world
 

@@ -4,10 +4,9 @@
 #include "room.h"
 #include "player.h"
 #include "exit.h"
-#include "entity.h"
-#include "vector.h"
+#include "Entity.h"
 #include "string.h"
-
+#include "vector.h"
 
 class World : public Entity
 {
@@ -15,7 +14,7 @@ public:
 	Vector <Room*> room;
 	Vector <Exit*> exit;
 	Player* player;
-	
+
 
 	World();
 	~World();
@@ -23,13 +22,13 @@ public:
 	void CreatePlayer() const;
 	void CreateWorld();
 
-	void Mayus(char[]);
-	void Go(char[]);
-	int Direction(char[]);
-	void Action(char[], char[], char[], char[]);
-	void Look(char[]);
-	void Close(char[]);
-	void Open(char[]);
+	void Mayus(String&) const;
+	void Go(const String&);
+	int Direction(const String&);
+	void Action(const String&, const String&, const String&, const String&);
+	void Look(const String&);
+	void Close(const String&);
+	void Open(const String&);
 
 };
 

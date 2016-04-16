@@ -1,8 +1,10 @@
 #ifndef STRUCT__
 #define STRUCT__
 
+#include<assert.h>
+
 template<class TYPE>
-class Vector : public Entity
+class Vector
 {
 private:
 
@@ -35,12 +37,13 @@ public:
 	}
 
 	//PUSH BACK
-	void push_back(const TYPE& element)
+	void push_back(const TYPE &element)
 	{
+
 		if (capacity == num_elements)
 		{
-			TYPE* temp = nullptr;
-			capacity *= 2;
+			TYPE *temp = nullptr;
+			capacity += 5;
 			temp = new TYPE[capacity];
 
 			for (unsigned int i = 0; i < num_elements; i++)
@@ -73,12 +76,18 @@ public:
 	}
 
 	//[]
-	const TYPE &operator[](const TYPE& number) const
+	const TYPE &operator[](const unsigned int &index) const
 	{
+		assert(index >= 0 && index < num_elements);
+		return vec[index];
+	}
+
+	const TYPE operator[](unsigned int& number)
+	{
+		assert(number <= 0 && number > num_elements);
 		return vec[number];
 	}
 
-	//v[5] = 0
 
 	//EMPTY(?
 	bool Empty()
