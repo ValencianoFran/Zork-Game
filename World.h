@@ -32,10 +32,12 @@ public:
 	void Close(const String&);
 	void Open(const String&);
 	void Pick(const String&);
+	void Drop(const String&);
 	void Equip(const String&);
 	void Unequip(const String&);
 	void Put(const String&);
-	void Get(Const String&);
+	void Get(const String&);
+	void Inventory(const String&);
 
 };
 

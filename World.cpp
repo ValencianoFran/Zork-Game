@@ -215,17 +215,19 @@ void World::Go(const String& op) //Move player
 void World::Look(const String& op) //Look the exit
 {
 	int direc = INVALID;
+	int _item = INVALID;
 	int  i = 0, j= 0;
 	bool finish = false;   //Check if go action is completed
-	direc = Direction(op); //Look if the direction is valid
+	_item = Item_verification(op); //Look if the item name is valid
+	direc = Direction(op); //Look if the direction name is valid
 
-	if (direc == INVALID)
+	if (direc == INVALID && _item == INVALID)
 	{
-		printf("Invalid direction\n");
+		printf("Invalid command\n");
 		return;
 	}
 
-	else
+	if (direc != INVALID)
 	{
 		for (i = 0; i < NUM_EXITS; i++)
 		{
@@ -240,7 +242,7 @@ void World::Look(const String& op) //Look the exit
 					{
 						if (item[j]->place == player->position && item[i]->picked == false)
 						{
-							printf("%s\n%s", item[i]->name, item[i]->description);
+							item[j]->Look();
 						}
 					}
 					finish = true;
@@ -248,10 +250,21 @@ void World::Look(const String& op) //Look the exit
 				}
 			}
 		}
-
 		if (finish == false)
 		{
 			printf("\nThere are nothing here\n");
+		}
+	}
+
+	if (_item != INVALID)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (item[j]->name.c_str() == op.c_str())
+			{
+				item[j]->Look();
+				return;
+			}
 		}
 	}
 }
@@ -476,7 +489,7 @@ void World::Inventory(const String&)
 	{
 		if (item[j]->picked == true && item[j]->equipped == false)
 		{
-			printf("%s\n", item[j]->name.c_str);
+			printf("%s\n", item[j]->name.c_str());
 			done = 1;
 		}
 	}
@@ -491,7 +504,7 @@ int World::Item_verification(const String& item_)
 {
 	for (int j = 0; j < 8; j++)
 	{
-		if (item[j]->name.c_str == item_.c_str)
+		if (item[j]->name.c_str() == item_.c_str())
 		{
 			return 1;
 		}
@@ -517,12 +530,12 @@ void World::Pick(const String& _item)
 
 	for (int j = 0; j < 8; j++)
 	{
-		if (item[j]->name.c_str == _item.c_str)
+		if (item[j]->name.c_str() == _item.c_str())
 		{
 			if (item[j]->picked == false)
 			{
 				item[j]->picked = true;
-				printf("You picked %s\n", item[j]->name.c_str);
+				printf("You picked %s\n", item[j]->name.c_str());
 				return;
 			}
 		}
@@ -544,13 +557,13 @@ void World::Drop(const String& _item)
 
 	for (int j = 0; j < 8; j++)
 	{
-		if (item[j]->name.c_str == _item.c_str)
+		if (item[j]->name.c_str() == _item.c_str())
 		{
 			if (item[j]->picked == true)
 			{
 				item[j]->picked = false;
 				item[j]->place = player->position;
-				printf("You dropped %s\n", item[j]->name.c_str);
+				printf("You dropped %s\n", item[j]->name.c_str());
 				return;
 			}
 		}
@@ -573,12 +586,12 @@ void World::Equip(const String& _item)
 
 	for (int j = 0; j < 8; j++)
 	{
-		if (item[j]->name.c_str == _item.c_str)
+		if (item[j]->name.c_str() == _item.c_str())
 		{
 			if (item[j]->equipped == false)
 			{
 				item[j]->equipped = true;
-				printf("You equiped %s\n", item[j]->name.c_str);
+				printf("You equiped %s\n", item[j]->name.c_str());
 				return;
 			}
 			else
@@ -613,12 +626,12 @@ void World::Unequip(const String& _item)
 
 	for (int j = 0; j < 8; j++)
 	{
-		if (item[j]->name.c_str == _item.c_str)
+		if (item[j]->name.c_str() == _item.c_str())
 		{
 			if (item[j]->equipped == true)
 			{
 				item[j]->equipped = false;
-				printf("You unequiped %s\n", item[j]->name.c_str);
+				printf("You unequiped %s\n", item[j]->name.c_str());
 				return;
 			}
 			else
@@ -628,4 +641,14 @@ void World::Unequip(const String& _item)
 			}
 		}
 	}
+}
+
+void Put(const String& _item)
+{
+
+}
+
+void Get(const String& _item)
+{
+
 }
