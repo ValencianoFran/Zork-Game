@@ -12,7 +12,8 @@ enum equip
 {
 	Head,
 	Hand,
-	Cant_Equip
+	Cant_Equip,
+	Drive
 };
 
 class Items : public Entity

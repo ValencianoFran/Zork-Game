@@ -12,6 +12,9 @@ public:
 	Player();
 	~Player();
 	Player(int&, int&, Room*);
+	bool _head = false;
+	bool _hand = false;
+	bool _drive = true;
 	int hp = 10;
 	int damage = 10;
 	unsigned int num_items = 0;

@@ -35,8 +35,8 @@ public:
 	void Drop(const String&);
 	void Equip(const String&);
 	void Unequip(const String&);
-	void Put(const String&);
-	void Get(const String&);
+	void Put(const String&, const String&);
+	void Get(const String&, const String&);
 	void Inventory(const String&);
 
 };
