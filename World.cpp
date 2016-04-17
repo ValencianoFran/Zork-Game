@@ -468,6 +468,25 @@ void World::Action(Vector<String> &act) //Do the action that the player input
 	*/
 }
 
+void World::Inventory(const String&)
+{
+	int done = 0;
+	printf("You have this items in the inventory:\n");
+	for (int j = 0; j < 8; j++)
+	{
+		if (item[j]->picked == true && item[j]->equipped == false)
+		{
+			printf("%s\n", item[j]->name.c_str);
+			done = 1;
+		}
+	}
+	if (done = 0)
+	{
+		printf("You don't have items yet\n");
+	}
+}
+
+
 int World::Item_verification(const String& item_)
 {
 	for (int j = 0; j < 8; j++)
@@ -510,6 +529,34 @@ void World::Pick(const String& _item)
 	}
 
 	printf("You have already picked that item\n");
+	return;
+}
+
+void World::Drop(const String& _item)
+{
+	int item_comprovant = INVALID;
+	item_comprovant = Item_verification(_item);
+	if (item_comprovant == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	for (int j = 0; j < 8; j++)
+	{
+		if (item[j]->name.c_str == _item.c_str)
+		{
+			if (item[j]->picked == true)
+			{
+				item[j]->picked = false;
+				item[j]->place = player->position;
+				printf("You dropped %s\n", item[j]->name.c_str);
+				return;
+			}
+		}
+	}
+
+	printf("You dont have that item in your inventary that item\n");
 	return;
 
 }
