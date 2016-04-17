@@ -153,7 +153,7 @@ Vector<String> String::SplitString()
 	restant_string = strtok_s(temp, divide, &context);
 	while (restant_string != NULL)
 	{
-		words.push_back(p);
+		words.push_back(restant_string);
 		restant_string = strtok_s(NULL, divide, &context);
 	}
 	delete[] temp;

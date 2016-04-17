@@ -10,9 +10,12 @@ class Player :public Entity
 public:
 	Room* position;
 	Player();
+	~Player();
 	Player(int&, int&, Room*);
 	int hp = 10;
 	int damage = 10;
+	unsigned int num_items = 0;
+	unsigned int bag_capacity = 10;
 };
 
 #endif

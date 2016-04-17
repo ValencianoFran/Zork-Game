@@ -7,13 +7,15 @@
 #include "Entity.h"
 #include "string.h"
 #include "vector.h"
+#include "items.h"
 
 class World : public Entity
 {
 public:
-	Player* player;
 	Vector <Room*> room;
 	Vector <Exit*> exit;
+	Vector <Items*> item;
+	Player* player;
 
 	World();
 	~World();
@@ -25,9 +27,15 @@ public:
 	void Go(const String&);
 	int Direction(const String&);
 	void Action(Vector <String>&);
+	int Item_verification(const String&);
 	void Look(const String&);
 	void Close(const String&);
 	void Open(const String&);
+	void Pick(const String&);
+	void Equip(const String&);
+	void Unequip(const String&);
+	void Put(const String&);
+	void Get(Const String&);
 
 };
 

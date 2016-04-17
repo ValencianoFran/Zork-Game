@@ -111,6 +111,18 @@ void World::CreateWorld()
 	exit.push_back(new Exit("Outside House\n", "\n", room[6], room[5], north, false));
 
 
+	//ITEMS
+
+	item.push_back(new Items("Guitar", "You can use this object to attract the monkey\n", room[6], 10, 0, Hand));
+	item.push_back(new Items("Pearl", "It seems very expensive\n", room[1], 10, 0, Cant_Equip));
+	item.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", room[7], 10, 20, Hand));
+	item.push_back(new Items("Oyster", "Maybe constains something with value inside\n", room[1], 10, 0, Cant_Equip));
+	item.push_back(new Items("Goggles", "This should allow me to snorquel\n", room[6], 10, 0, Head));
+	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[5], 10, 20, Hand));
+	item.push_back(new Items("Rotten banana", "It doesn't smell good\n", room[8], 10, 0, Hand));
+	item.push_back(new Items("Chest", "There are something inside it\n", room[8], 10, 0, Cant_Equip));
+	item.push_back(new Items("Box", "I should take that and open It", room[6], 10, 0, Cant_Equip));
+
 	CreatePlayer();
 }
 
@@ -203,7 +215,7 @@ void World::Go(const String& op) //Move player
 void World::Look(const String& op) //Look the exit
 {
 	int direc = INVALID;
-	int  i = 0;
+	int  i = 0, j= 0;
 	bool finish = false;   //Check if go action is completed
 	direc = Direction(op); //Look if the direction is valid
 
@@ -223,11 +235,20 @@ void World::Look(const String& op) //Look the exit
 				if (exit[i]->direction == direc)
 				{
 					printf("\nYou see %s\n%s ", exit[i]->name.c_str(), exit[i]->description.c_str());
+					printf("You can see this items:\n");
+					for (j = 0; j < 8; j++)
+					{
+						if (item[j]->place == player->position && item[i]->picked == false)
+						{
+							printf("%s\n%s", item[i]->name, item[i]->description);
+						}
+					}
 					finish = true;
 					break;
 				}
 			}
 		}
+
 		if (finish == false)
 		{
 			printf("\nThere are nothing here\n");
@@ -311,6 +332,7 @@ void World::Close(const String& op) //Close doors, same function of Open, but it
 				}
 			}
 		}
+
 
 		if (finish == false){
 			printf("There is no doors to close or It's already closed\n");
@@ -445,3 +467,50 @@ void World::Action(Vector<String> &act) //Do the action that the player input
 	}
 	*/
 }
+
+int World::Item_verification(const String& item_)
+{
+	for (int j = 0; j < 8; j++)
+	{
+		if (item[j]->name.c_str == item_.c_str)
+		{
+			return 1;
+		}
+	}
+	return INVALID;
+}
+
+void World::Pick(const String& _item)
+{
+	int item_comprovant = INVALID;
+	if (player->num_items >= player->bag_capacity)
+	{
+		printf("The bag is full\n");
+		return;
+	}
+
+	item_comprovant = Item_verification(_item);
+	if (item_comprovant == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	for (int j = 0; j < 8; j++)
+	{
+		if (item[j]->name.c_str == _item.c_str)
+		{
+			if (item[j]->picked == false)
+			{
+				item[j]->picked = true;
+				printf("You picked %s\n", item[j]->name.c_str);
+				return;
+			}
+		}
+	}
+
+	printf("You have already picked that item\n");
+	return;
+
+}
+

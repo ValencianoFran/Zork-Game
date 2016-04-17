@@ -8,3 +8,6 @@ Player::Player(int& _hp, int& _dmg, Room* _pos)
 	damage = _dmg;
 	position = _pos;
 }
+
+Player::~Player()
+{}
