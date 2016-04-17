@@ -514,3 +514,71 @@ void World::Pick(const String& _item)
 
 }
 
+void World::Equip(const String& _item)
+{
+	int item_comprovant = INVALID;
+	item_comprovant = Item_verification(_item);
+	if (item_comprovant == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	for (int j = 0; j < 8; j++)
+	{
+		if (item[j]->name.c_str == _item.c_str)
+		{
+			if (item[j]->equipped == false)
+			{
+				item[j]->equipped = true;
+				printf("You equiped %s\n", item[j]->name.c_str);
+				return;
+			}
+			else
+			{
+				if (item[j]->slot == 0)
+				{
+					printf("Actually your head is equiped\n");
+				}
+				if (item[j]->slot == 2)
+				{
+					printf("Actually your hand is equiped\n");
+				}
+				else
+				{
+					printf("You can't equip that item\n");
+				}
+				return;
+			}
+		}
+	}
+}
+
+void World::Unequip(const String& _item)
+{
+	int item_comprovant = INVALID;
+	item_comprovant = Item_verification(_item);
+	if (item_comprovant == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	for (int j = 0; j < 8; j++)
+	{
+		if (item[j]->name.c_str == _item.c_str)
+		{
+			if (item[j]->equipped == true)
+			{
+				item[j]->equipped = false;
+				printf("You unequiped %s\n", item[j]->name.c_str);
+				return;
+			}
+			else
+			{
+				printf("You don't have equiped that item\n");
+				return;
+			}
+		}
+	}
+}
