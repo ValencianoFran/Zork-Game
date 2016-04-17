@@ -121,7 +121,9 @@ void World::CreateWorld()
 	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[5], 10, 20, Hand));
 	item.push_back(new Items("Rotten banana", "It doesn't smell good\n", room[8], 10, 0, Hand));
 	item.push_back(new Items("Chest", "There are something inside it\n", room[8], 10, 0, Cant_Equip));
-	item.push_back(new Items("Box", "I should take that and open It", room[6], 10, 0, Cant_Equip));
+	item.push_back(new Items("Box", "I should take that and open It\n", room[6], 10, 0, Cant_Equip));
+	item.push_back(new Items("Boat", "It allows you to navegate in the sea\n", room[0], 10, 0, Drive));
+	item[9]->equipped = true;
 
 	CreatePlayer();
 }
@@ -189,6 +191,18 @@ void World::Go(const String& op) //Move player
 			{
 				if (exit[i]->direction == direc)
 				{
+					if (exit[i]->destination == room[1] && item[4]->equipped == false)
+					{
+						printf("You need have googles equiped to do snorquel\n");
+						finish = true;
+						break;
+					}
+					if (exit[i]->destination == room[0] && item[9]->equipped == false)
+					{
+						printf("You need have googles equiped to do snorquel\n");
+						finish = true;
+						break;
+					}
 					if (exit[i]->close == true)
 					{
 						printf("The door is closed\n");
@@ -590,19 +604,44 @@ void World::Equip(const String& _item)
 		{
 			if (item[j]->equipped == false)
 			{
-				item[j]->equipped = true;
-				printf("You equiped %s\n", item[j]->name.c_str());
-				return;
+				if (item[j]->slot == 0 && player->_head == false)
+				{
+					item[j]->equipped = true;
+					player->_head = true;
+					printf("You equiped %s\n", item[j]->name.c_str());
+					return;
+				}
+				if (item[j]->slot == 1 && player->_hand == false)
+				{
+					item[j]->equipped = true;
+					player->_hand = true;
+					printf("You equiped %s\n", item[j]->name.c_str());
+					return;
+				}
+
+				if (item[j]->slot == 3 && player->_drive == false)
+				{
+					item[j]->equipped = true;
+					player->_drive = true;
+					printf("You equiped %s\n", item[j]->name.c_str());
+					return;
+				}
+				
 			}
+
 			else
 			{
 				if (item[j]->slot == 0)
 				{
 					printf("Actually your head is equiped\n");
 				}
-				if (item[j]->slot == 2)
+				if (item[j]->slot == 1)
 				{
 					printf("Actually your hand is equiped\n");
+				}
+				if (item[j]->slot == 3)
+				{
+					printf("Actually you have transport\n");
 				}
 				else
 				{
@@ -643,12 +682,12 @@ void World::Unequip(const String& _item)
 	}
 }
 
-void Put(const String& _item)
+void Put(const String& _put, const String& _into)
 {
 
 }
 
-void Get(const String& _item)
+void Get(const String& _get, const String& _from)
 {
 
 }
