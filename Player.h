@@ -10,9 +10,9 @@ class Player :public Entity
 public:
 	Room* position;
 	Player();
-	Player(int, int, Room*);
-	int hp;
-	int damage;
+	Player(int&, int&, Room*);
+	int hp = 10;
+	int damage = 10;
 };
 
 #endif

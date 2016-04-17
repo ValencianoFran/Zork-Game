@@ -38,7 +38,7 @@ unsigned int String::lenght() const
 }
 
 //RETURN STRING
-const char* String::c_str() const
+char* String::c_str() const
 {
 	return my_string;
 }
@@ -140,24 +140,38 @@ char String::return_word(const int& number) const
 }
 
 //TOKEN 
-void String::Token(String &str, Vector<String> &strings){
-	char* single = nullptr;
-	char* temp = nullptr;
-	single = strtok_s(str.my_string, " ", &temp);
-	while (single != NULL)
+Vector<String> String::SplitString()
+{
+	Vector<String> words;
+	char *temp, *restant_string, *context;
+	char* divide = nullptr;
+
+	int len = strlen(my_string);
+	temp = new char[len + 1];
+	strcpy_s(temp, len + 1, my_string);
+
+	restant_string = strtok_s(temp, divide, &context);
+	while (restant_string != NULL)
 	{
-		str.my_string = single;
-		strings.push_back(str);
-		single = strtok_s(NULL, " ", &temp);
+		words.push_back(p);
+		restant_string = strtok_s(NULL, divide, &context);
 	}
+	delete[] temp;
+	return words;
 }
+
+
 
 void String::tolower_method()
 {
 	int i = 0;
-	while (my_string[i] != '\0')
+	if (my_string != NULL)
 	{
-		*(my_string + i) = tolower(my_string[i]);
+		while (my_string[i] != '\0')
+		{
+			my_string[i] = tolower(my_string[i]);
+			i++;
+		}
 	}
 
 }

@@ -9,17 +9,22 @@ int main() {
 	fflush(stdin);
 	World world;
 	world.CreateWorld(); //Create the world
-
-	char direction[30]; //The direction that user will input
+	String direction("default");
+	char direc[30];
 
 	printf("WELCOME TO MY ZORK!\nYou are lost in one island and you have to scape.\nHave fun!\n\n");
 	world.Tutorial(); //Controls
 	printf("Introduce where you want to go:\n");
 
-	while (0 != strcmp(direction, "quit"))
+	while (1)
 	{
-		gets_s(direction, 20);
+		gets_s(direc, 20);
+		direction = direc;
 		world.Mayus(direction);
+		if (direction == "quit")
+		{
+			break;
+		}
 	}
 
 	system("pause");

@@ -115,68 +115,40 @@ void World::CreateWorld()
 }
 
 
-void World::Mayus(String& str) const//Transform capital letters to lowercase and iniciate the loop with Action
+void World::Mayus(String& str)//Transform capital letters to lowercase and iniciate the loop with Action
 {
-	String word1("");
-	String word2("");
-	String word3("");
-	String word4("");
-	int i = 0, spaces = 0;
-	char *context; // Necessary to do strtok
+	str.tolower_method();//transforms in to lowercase
+	Vector <String> word = str.SplitString(); //divide the principal string in to differents strings
+	 
+	//str.Token(str, word); 
 
-	str.tolower_method();
-	spaces = str.spaces();
-	
-	if (spaces == 0)
-	{   //Check if there are spaces to write a second word
-		word1 = str;
-		word2 = "\0";
-		word3 = "\0";
-		word4 = "\0";
-	}
-	if (spaces == 1)
-	{
-		strcpy_s(word1, strtok_s(str, " ", &context));
-		strcpy_s(word2, strtok_s(NULL, " ", &context));
-		word3 = "\0";
-		word4 = "\0";
-	}
-	
-	if (spaces == 3)
-	{
-		strcpy_s(word1, strtok_s(str, " ", &context));
-		strcpy_s(word2, strtok_s(NULL, " ", &context));
-		strcpy_s(word3, strtok_s(NULL, " ", &context));
-		strcpy_s(word4, strtok_s(NULL, " ", &context));
-	}
-	
-	Action(word1, word2, word3, word4); // Future method witch will send the information to go, look, open or close
+	Action(word); // Future method witch will send the information to go, look, open or close
 }
 
 int World::Direction(const String& op) //Check the direction is valid
 {
 
-	if (op == "north" || op == "n")
+	if (op.c_str() == "north" || op.c_str() == "n")
 	{
 		return 0;
 	}
-	if (op == "south" || op == "s")
+	if (op.c_str() == "south" || op.c_str() == "s")
 	{
 		return 1;
 	}
-	if (op == "east" || op == "e")
+	if (op.c_str() == "east" || op.c_str() == "e")
 	{
 		return 2;
 	}
-	if (op == "west" || op == "w")
+	if (op.c_str() == "west" || op.c_str() == "w")
 	{
 		return 3;
 	}
-	if (op == "up" || op == "u")
+	if (op.c_str() == "up" || op.c_str() == "u")
 	{
 		return 4;
 	}
-	if (op == "down" || op == "d")
+	if (op.c_str() == "down" || op.c_str() == "d")
 	{
 		return 5;
 	}
@@ -352,21 +324,22 @@ void World::Tutorial() const //Controls of the game
 }
 
 
-void World::Action(const String& do1, const String& do2, const String& do3, const String& do4) //Do the action that the player input
+void World::Action(Vector<String> &act) //Do the action that the player input
 {
 	/*With 1 word input*/
 	/*Go actions (every 'if' does the same function)*/
-	if (do1 == "north" || do1 == "n")
+	if (act[0].c_str() == "north" || act[0].c_str() == "n")
 	{
-		Go(do1);
+		Go(act[0]);
 		return;
 	}
-	if (do1 == "south" || do1 == "s")
+	if (act[0].c_str() == "south" || act[0].c_str() == "s")
 	{
-		Go(do1);
+		Go(act[0]);
 		return;
 	}
-	if (do1 == "east" || do1 == "e")
+
+	/*if (do1 == "east" || do1 == "e")
 	{
 		Go(do1);
 		return;
@@ -388,7 +361,7 @@ void World::Action(const String& do1, const String& do2, const String& do3, cons
 	}
 	
 
-	/*With 2 words input*/
+	//With 2 words input
 	else if (do1 == "go" || do1 == "g")
 	{
 		Go(do2);
@@ -411,7 +384,7 @@ void World::Action(const String& do1, const String& do2, const String& do3, cons
 		return;
 	}
 
-	/*Quit and help*/
+	//Quit and help
 	else if (do1 == "quit")
 	{
 		return;
@@ -466,9 +439,9 @@ void World::Action(const String& do1, const String& do2, const String& do3, cons
 
 	
 
-	/*If the user introduces invalid action*/
+	//If the user introduces invalid action
 	else{
 		printf("I don't understand\n");
 	}
-
+	*/
 }

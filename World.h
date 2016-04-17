@@ -11,10 +11,9 @@
 class World : public Entity
 {
 public:
+	Player* player;
 	Vector <Room*> room;
 	Vector <Exit*> exit;
-	Player* player;
-
 
 	World();
 	~World();
@@ -22,10 +21,10 @@ public:
 	void CreatePlayer() const;
 	void CreateWorld();
 
-	void Mayus(String&) const;
+	void Mayus(String&);
 	void Go(const String&);
 	int Direction(const String&);
-	void Action(const String&, const String&, const String&, const String&);
+	void Action(Vector <String>&);
 	void Look(const String&);
 	void Close(const String&);
 	void Open(const String&);

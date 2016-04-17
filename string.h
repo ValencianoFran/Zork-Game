@@ -18,7 +18,7 @@ public:
 	String(const char* str);
 	String(const String& other);
 	unsigned int lenght() const;
-	const char* c_str() const;
+	char* c_str() const;
 	bool empty() const;
 
 	bool operator==(const String &other) const;
@@ -34,7 +34,8 @@ public:
 	char return_word(const int& number) const;
 	void tolower_method();
 	int const spaces() const;
-	void Token(String &str, Vector<String> &strings);
+	//void Token(String &str, Vector<String> &strings);
+	Vector<String> String::SplitString();
 	~String();
 };
 
