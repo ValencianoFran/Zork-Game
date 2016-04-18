@@ -18,7 +18,28 @@ World::World()
 
 World::~World()
 {
+<<<<<<< HEAD
 	
+=======
+	int i = 0;
+	for (i = 0; i <= 9; i++)
+	{
+		delete room[i];
+	}
+	room.Clean();
+
+	for (i = 0; i <= 9; i++)
+	{
+		delete exit[i];
+	}
+	exit.Clean();
+
+	for (i = 0; i <= 9; i++)
+	{
+		delete item[i];
+	}
+	item.Clean();
+>>>>>>> origin/master
 }
 
 void World::CreatePlayer() const
@@ -119,10 +140,17 @@ void World::CreateWorld()
 	item.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", room[7], 10, 20, Hand, false, false, false));
 	item.push_back(new Items("Oyster", "Maybe constains something with value inside\n", room[1], 10, 0, Cant_Equip, true, false, false));
 	item.push_back(new Items("Goggles", "This should allow me to snorquel\n", room[6], 10, 0, Head, false, true, true));
+<<<<<<< HEAD
 	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[8], 10, 20, Hand, false, true, true));
 	item.push_back(new Items("Rotten banana", "It doesn't smell good\n", room[8], 10, 0, Hand, false, false, false));
 	item.push_back(new Items("Chest", "There are a knife inside it\n", room[8], 10, 0, Cant_Equip, true, false, false));
 	item.push_back(new Items("Box", "There are goggles inside\n", room[6], 10, 0, Cant_Equip, true, false, false));
+=======
+	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[5], 10, 20, Hand, false, false, false));
+	item.push_back(new Items("Rotten banana", "It doesn't smell good\n", room[8], 10, 0, Hand, false, false, false));
+	item.push_back(new Items("Chest", "There are something inside it\n", room[8], 10, 0, Cant_Equip, true, false, false));
+	item.push_back(new Items("Box", "I should take that and open It\n", room[6], 10, 0, Cant_Equip, true, false, false));
+>>>>>>> origin/master
 	item.push_back(new Items("Boat", "It allows you to navegate in the sea\n", room[0], 10, 0, Drive, false, false, false));
 
 	CreatePlayer();
@@ -257,7 +285,11 @@ void World::Look(const String& op) //Look the exit
 		printf("You can see this items:\n");
 		for (j = 0; j <= 9; j++)
 		{
+<<<<<<< HEAD
 			if (item[j]->place == player->position && item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == false)
+=======
+			if (item[j]->place == player->position && item[j]->picked == false && item[j]->equipped == false)
+>>>>>>> origin/master
 			{
 				item[j]->Look();
 				saw_items++;
@@ -395,7 +427,11 @@ void World::Close(const String& op) //Close doors, same function of Open, but it
  
 void World::Tutorial() const //Controls of the game
 {
+<<<<<<< HEAD
 	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
+=======
+	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>​​\n\n\tDefault action is 'go' if you only introduce the direction.\n");
+>>>>>>> origin/master
 }
 
 
@@ -439,13 +475,21 @@ void World::Action(Vector<String> &act, const int& space) //Do the action that t
 
 	//With 2 words input
 
+<<<<<<< HEAD
 	else if (act.Size() > 1 && (act[0] == "go" || act[0] == "g"))
+=======
+	else if (space == 1 && (act[0] == "go" || act[0] == "g"))
+>>>>>>> origin/master
 	{
 		Go(act[1]);
 		return;
 	}
 
+<<<<<<< HEAD
 	else if (space <= 2 && (act[0] == "look" || act[0] == "l"))
+=======
+	else if (space == 1 && (act[0] == "look" || act[0] == "l"))
+>>>>>>> origin/master
 	{
 		if (space == 0)
 		{
@@ -459,12 +503,20 @@ void World::Action(Vector<String> &act, const int& space) //Do the action that t
 		}
 	}
 
+<<<<<<< HEAD
 	else if (act.Size() > 1 && (act[0] == "open" || act[0] == "o"))
+=======
+	else if (space == 1 && (act[0] == "open" || act[0] == "o"))
+>>>>>>> origin/master
 	{
 		Open(act[1]);
 		return;
 	}
+<<<<<<< HEAD
 	else if (act.Size() > 1 && (act[0] == "close" || act[0] == "c"))
+=======
+	else if (space == 1 && (act[0] == "close" || act[0] == "c"))
+>>>>>>> origin/master
 	{
 		Close(act[1]);
 		return;
@@ -472,11 +524,18 @@ void World::Action(Vector<String> &act, const int& space) //Do the action that t
 
 
 	//Quit and help
+<<<<<<< HEAD
 	else if (space >= 0  && act[0] == "quit")
 	{
 		return;
 	}
 
+=======
+	else if (act[0] == "quit")
+	{
+		return;
+	}
+>>>>>>> origin/master
 	else if (act[0] == "help" || act[0] == "h")
 	{
 		Tutorial();
@@ -516,6 +575,7 @@ void World::Action(Vector<String> &act, const int& space) //Do the action that t
 	else if (space == 3 && (act[0] == "put" && act[2] == "into"))
 	{
 		Put(act[1], act[3]);
+<<<<<<< HEAD
 		return;
 	}
 
@@ -525,6 +585,17 @@ void World::Action(Vector<String> &act, const int& space) //Do the action that t
 		return;
 	}
 
+=======
+		return;
+	}
+
+	else if (space == 3 && (act[0] == "get" && act[2] == "from"))
+	{
+		Get(act[1], act[3]);
+		return;
+	}
+
+>>>>>>> origin/master
 
 
 	//If the user introduces invalid action
@@ -585,7 +656,11 @@ void World::Pick(const String& _item)
 	{
 		if (item[j]->name == _item && item[j]->place == player->position)
 		{
+<<<<<<< HEAD
 			if (item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == false)
+=======
+			if (item[j]->picked == false && item[j]->equipped == false)
+>>>>>>> origin/master
 			{
 				item[j]->picked = true;
 				printf("You picked %s\n", item[j]->name.c_str());
@@ -779,6 +854,7 @@ void World::Put(const String& _put, const String& _into)
 					printf("You put %s into %s\n", item[1]->name.c_str(), item[3]->name.c_str());
 					return;
 				}
+<<<<<<< HEAD
 
 				if (_put == item[5]->name && _into == item[7]->name && item[5]->already_inside == false && item[5]->picked == true && item[7]->picked == true)
 				{
@@ -791,6 +867,9 @@ void World::Put(const String& _put, const String& _into)
 				}
 
 				if (item[5]->name != _put && item[1]->name != _put && item[i]->already_inside == false && item[i]->picked == true && item[j]->picked == true)
+=======
+				if (item[i]->already_inside == false && item[i]->picked == true && item[j]->picked == true)
+>>>>>>> origin/master
 				{
 					item[j]->chst.push_back(item[i]);
 					item[i]->equipped = false;
@@ -806,7 +885,11 @@ void World::Put(const String& _put, const String& _into)
 	
 	if (finish == 0)
 	{
+<<<<<<< HEAD
 		printf("You can't put that item inside because It is not his correct place or It already is inside\n");
+=======
+		printf("You can't put that item inside or It already is\n");
+>>>>>>> origin/master
 		return;
 	}
 
@@ -833,12 +916,17 @@ void World::Get(const String& _get, const String& _from)
 			{
 				if (_get == item[1]->name && _from == item[3]->name && item[1]->picked == false && item[3]->picked == true)
 				{
+<<<<<<< HEAD
+=======
+					item[3]->chst.push_back(item[1]); //Olyster only can contain pearl
+>>>>>>> origin/master
 					item[1]->equipped = false;
 					item[1]->picked = true;
 					item[1]->already_inside = false;
 					printf("You get %s from %s\n", item[1]->name.c_str(), item[3]->name.c_str());
 					return;
 				}
+<<<<<<< HEAD
 
 				if (_get == item[5]->name && _from == item[7]->name && item[5]->already_inside == false && item[5]->picked == true && item[7]->picked == true)
 				{
@@ -850,6 +938,9 @@ void World::Get(const String& _get, const String& _from)
 				}
 
 				if (item[5]->name != _get && item[1]->name != _get && item[i]->picked == false && item[j]->picked == true)
+=======
+				if (item[i]->picked == false && item[j]->picked == true)
+>>>>>>> origin/master
 				{
 					item[j]->chst.push_back(item[i]);
 					item[i]->equipped = false;

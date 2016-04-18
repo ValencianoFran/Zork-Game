@@ -10,6 +10,11 @@ public:
 	String description;
 	Entity();
 	Entity(const char* _name, const char* _description);
+<<<<<<< HEAD
+=======
+	void Remove();
+	void Insert();
+>>>>>>> origin/master
 	~Entity();
 };
 
