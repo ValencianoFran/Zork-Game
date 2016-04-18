@@ -11,7 +11,8 @@
 
 //VOID CONSTRUCTOR
 String::String()
-{}
+{
+}
 
 //CONSTRUCTOR
 String::String(const char* str)
@@ -140,24 +141,16 @@ char String::return_word(const int& number) const
 }
 
 //TOKEN 
-Vector<String> String::SplitString()
+void String::TokenizeString(char* str, Vector<String> &word)
 {
-	Vector<String> words;
-	char *temp, *restant_string, *context;
-	char* divide = nullptr;
-
-	int len = strlen(my_string);
-	temp = new char[len + 1];
-	strcpy_s(temp, len + 1, my_string);
-
-	restant_string = strtok_s(temp, divide, &context);
-	while (restant_string != NULL)
+	char* temp = nullptr;
+	char* save = nullptr;
+	temp = strtok_s(str, " ", &save);
+	while (temp != NULL)
 	{
-		words.push_back(restant_string);
-		restant_string = strtok_s(NULL, divide, &context);
+		word.push_back(temp);
+		temp = strtok_s(NULL, " ", &save);
 	}
-	delete[] temp;
-	return words;
 }
 
 
@@ -181,7 +174,10 @@ int const String::spaces() const
 	int spaces = 0;
 	while (my_string[i] != '\0')
 	{
-		if (my_string[i] == ' ') spaces++;
+		if (my_string[i] == ' ')
+		{
+			spaces++;
+		}
 		i++;
 	}
 	return spaces;

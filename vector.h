@@ -96,13 +96,13 @@ public:
 	}
 
 	//CLEAN
-	void Slean()
+	void Clean()
 	{
 		num_elements = 0;
 	}
 
 	//SIZE
-	TYPE Size()
+	int Size()
 	{
 		return num_elements;
 	}

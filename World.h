@@ -9,6 +9,9 @@
 #include "vector.h"
 #include "items.h"
 
+class Items;
+class Player;
+
 class World : public Entity
 {
 public:
@@ -26,7 +29,7 @@ public:
 	void Mayus(String&);
 	void Go(const String&);
 	int Direction(const String&);
-	void Action(Vector <String>&);
+	void Action(Vector <String>&, const int& space);
 	int Item_verification(const String&);
 	void Look(const String&);
 	void Close(const String&);
@@ -37,7 +40,7 @@ public:
 	void Unequip(const String&);
 	void Put(const String&, const String&);
 	void Get(const String&, const String&);
-	void Inventory(const String&);
+	void Inventory();
 
 };
 

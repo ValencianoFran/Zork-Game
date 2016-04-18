@@ -1,4 +1,4 @@
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #include <iostream>
 #include <ctime>
 #include <cmath>
@@ -18,6 +18,7 @@ World::World()
 
 World::~World()
 {
+	
 }
 
 void World::CreatePlayer() const
@@ -113,17 +114,16 @@ void World::CreateWorld()
 
 	//ITEMS
 
-	item.push_back(new Items("Guitar", "You can use this object to attract the monkey\n", room[6], 10, 0, Hand));
-	item.push_back(new Items("Pearl", "It seems very expensive\n", room[1], 10, 0, Cant_Equip));
-	item.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", room[7], 10, 20, Hand));
-	item.push_back(new Items("Oyster", "Maybe constains something with value inside\n", room[1], 10, 0, Cant_Equip));
-	item.push_back(new Items("Goggles", "This should allow me to snorquel\n", room[6], 10, 0, Head));
-	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[5], 10, 20, Hand));
-	item.push_back(new Items("Rotten banana", "It doesn't smell good\n", room[8], 10, 0, Hand));
-	item.push_back(new Items("Chest", "There are something inside it\n", room[8], 10, 0, Cant_Equip));
-	item.push_back(new Items("Box", "I should take that and open It\n", room[6], 10, 0, Cant_Equip));
-	item.push_back(new Items("Boat", "It allows you to navegate in the sea\n", room[0], 10, 0, Drive));
-	item[9]->equipped = true;
+	item.push_back(new Items("Guitar", "You can use this object to attract the monkey\n", room[6], 10, 0, Hand, false, false, false));
+	item.push_back(new Items("Pearl", "It seems very expensive\n", room[1], 10, 0, Cant_Equip, false, true, true));
+	item.push_back(new Items("Harpoon", "It seems powerful and dangerous\n", room[7], 10, 20, Hand, false, false, false));
+	item.push_back(new Items("Oyster", "Maybe constains something with value inside\n", room[1], 10, 0, Cant_Equip, true, false, false));
+	item.push_back(new Items("Goggles", "This should allow me to snorquel\n", room[6], 10, 0, Head, false, true, true));
+	item.push_back(new Items("Knife", "It cuts, should be careful\n", room[8], 10, 20, Hand, false, true, true));
+	item.push_back(new Items("Rotten banana", "It doesn't smell good\n", room[8], 10, 0, Hand, false, false, false));
+	item.push_back(new Items("Chest", "There are a knife inside it\n", room[8], 10, 0, Cant_Equip, true, false, false));
+	item.push_back(new Items("Box", "There are goggles inside\n", room[6], 10, 0, Cant_Equip, true, false, false));
+	item.push_back(new Items("Boat", "It allows you to navegate in the sea\n", room[0], 10, 0, Drive, false, false, false));
 
 	CreatePlayer();
 }
@@ -132,37 +132,54 @@ void World::CreateWorld()
 void World::Mayus(String& str)//Transform capital letters to lowercase and iniciate the loop with Action
 {
 	str.tolower_method();//transforms in to lowercase
-	Vector <String> word = str.SplitString(); //divide the principal string in to differents strings
-	 
-	//str.Token(str, word); 
+	Vector <String> word;
+	int spc = str.spaces();
 
-	Action(word); // Future method witch will send the information to go, look, open or close
+	if ((spc + 1) == str.lenght())
+	{
+		printf("Invalid command\n");
+		return;
+	}
+
+	if (spc != 0)
+	{
+		str.TokenizeString(str.c_str(), word); //divide the principal string in to differents strings
+	}
+
+	else
+	{
+		word.push_back(str.c_str());
+	}
+	
+	
+
+	Action(word, spc);
 }
 
 int World::Direction(const String& op) //Check the direction is valid
 {
 
-	if (op.c_str() == "north" || op.c_str() == "n")
+	if (op == "north" || op == "n")
 	{
 		return 0;
 	}
-	if (op.c_str() == "south" || op.c_str() == "s")
+	if (op == "south" || op == "s")
 	{
 		return 1;
 	}
-	if (op.c_str() == "east" || op.c_str() == "e")
+	if (op == "east" || op == "e")
 	{
 		return 2;
 	}
-	if (op.c_str() == "west" || op.c_str() == "w")
+	if (op == "west" || op == "w")
 	{
 		return 3;
 	}
-	if (op.c_str() == "up" || op.c_str() == "u")
+	if (op == "up" || op == "u")
 	{
 		return 4;
 	}
-	if (op.c_str() == "down" || op.c_str() == "d")
+	if (op == "down" || op == "d")
 	{
 		return 5;
 	}
@@ -197,9 +214,9 @@ void World::Go(const String& op) //Move player
 						finish = true;
 						break;
 					}
-					if (exit[i]->destination == room[0] && item[9]->equipped == false)
+					if (exit[i]->destination == room[2] && item[9]->equipped == false)
 					{
-						printf("You need have googles equiped to do snorquel\n");
+						printf("You need have boat equiped\n");
 						finish = true;
 						break;
 					}
@@ -230,11 +247,28 @@ void World::Look(const String& op) //Look the exit
 {
 	int direc = INVALID;
 	int _item = INVALID;
-	int  i = 0, j= 0;
+	int  i = 0, j= 0, saw_items=0;
 	bool finish = false;   //Check if go action is completed
 	_item = Item_verification(op); //Look if the item name is valid
+	
+	if (op == "look")
+	{
+		printf("\nYou see %s\n%s ", player->position->name.c_str(), player->position->description.c_str());
+		printf("You can see this items:\n");
+		for (j = 0; j <= 9; j++)
+		{
+			if (item[j]->place == player->position && item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == false)
+			{
+				item[j]->Look();
+				saw_items++;
+			}
+		}
+		if (saw_items == 0) printf("There are no items here\n");
+		finish = true;
+		return;
+	}
+	
 	direc = Direction(op); //Look if the direction name is valid
-
 	if (direc == INVALID && _item == INVALID)
 	{
 		printf("Invalid command\n");
@@ -251,14 +285,6 @@ void World::Look(const String& op) //Look the exit
 				if (exit[i]->direction == direc)
 				{
 					printf("\nYou see %s\n%s ", exit[i]->name.c_str(), exit[i]->description.c_str());
-					printf("You can see this items:\n");
-					for (j = 0; j < 8; j++)
-					{
-						if (item[j]->place == player->position && item[i]->picked == false)
-						{
-							item[j]->Look();
-						}
-					}
 					finish = true;
 					break;
 				}
@@ -272,9 +298,9 @@ void World::Look(const String& op) //Look the exit
 
 	if (_item != INVALID)
 	{
-		for (int j = 0; j < 8; j++)
+		for (int j = 0; j <= 9; j++)
 		{
-			if (item[j]->name.c_str() == op.c_str())
+			if (item[j]->name == op)
 			{
 				item[j]->Look();
 				return;
@@ -369,137 +395,148 @@ void World::Close(const String& op) //Close doors, same function of Open, but it
  
 void World::Tutorial() const //Controls of the game
 {
-	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tDefault action is 'go' if you only introduce the direction.\n");
+	printf("CONTROLS:\n\tYou can use these commands:\n\tgo [direction], look [direction], open/close [direction], help and quit\n\twith these directions:\n\t<north, south, east, west, up, down>\n\t<n, s, e, w, u, d>\n\tPick/Drop <pick, drop>\n\tEquip/Unequip <equip, unequip>\n\tInventory <inventory, inv, i>\n\tput/get <item> into/from <item>\n\n\tDefault action is 'go' if you only introduce the direction.\n");
 }
 
 
-void World::Action(Vector<String> &act) //Do the action that the player input
+void World::Action(Vector<String> &act, const int& space) //Do the action that the player input
 {
 	/*With 1 word input*/
 	/*Go actions (every 'if' does the same function)*/
-	if (act[0].c_str() == "north" || act[0].c_str() == "n")
+
+	if (act[0] == "north" || act[0] == "n")
 	{
 		Go(act[0]);
 		return;
 	}
-	if (act[0].c_str() == "south" || act[0].c_str() == "s")
+	if (act[0] == "south" || act[0] == "s")
 	{
 		Go(act[0]);
 		return;
 	}
 
-	/*if (do1 == "east" || do1 == "e")
+	if (act[0] == "east" || act[0] == "e")
 	{
-		Go(do1);
+		Go(act[0]);
 		return;
 	}
-	if (do1 == "west" || do1 == "w")
+	if (act[0] == "west" || act[0] == "w")
 	{
-		Go(do1);
+		Go(act[0]);
 		return;
 	}
-	if (do1 == "up" || do1 == "u")
+	if (act[0] == "up" || act[0] == "u")
 	{
-		Go(do1);
+		Go(act[0]);
 		return;
 	}
-	if (do1 == "down" || do1 == "d")
+	if (act[0] == "down" || act[0] == "d")
 	{
-		Go(do1);
+		Go(act[0]);
 		return;
 	}
-	
+
 
 	//With 2 words input
-	else if (do1 == "go" || do1 == "g")
+
+	else if (act.Size() > 1 && (act[0] == "go" || act[0] == "g"))
 	{
-		Go(do2);
+		Go(act[1]);
 		return;
 	}
 
-	else if (do1 == "look" || do1 == "l")
+	else if (space <= 2 && (act[0] == "look" || act[0] == "l"))
 	{
-		Look(do2);
+		if (space == 0)
+		{
+			Look(act[0]);
+			return;
+		}
+		else
+		{
+			Look(act[1]);
+			return;
+		}
+	}
+
+	else if (act.Size() > 1 && (act[0] == "open" || act[0] == "o"))
+	{
+		Open(act[1]);
 		return;
 	}
-	else if (do1 == "open" || do1 == "o")
+	else if (act.Size() > 1 && (act[0] == "close" || act[0] == "c"))
 	{
-		Open(do2);
+		Close(act[1]);
 		return;
 	}
-	else if (do1 == "close" || do1 == "c")
-	{
-		Close(do2);
-		return;
-	}
+
 
 	//Quit and help
-	else if (do1 == "quit")
+	else if (space >= 0  && act[0] == "quit")
 	{
 		return;
 	}
-	else if (do1 == "help" || do1 == "h")
+
+	else if (act[0] == "help" || act[0] == "h")
 	{
 		Tutorial();
 		return;
 	}
-	
-	else if (do1 == "pick")
+
+	else if (space == 1 && act[0] == "pick")
 	{
-		printf("I will pick a item\n");
-		//Pick(do2);
+		Pick(act[1]);
 		return;
 	}
 
-	else if (do1 == "drop")
+	else if (space == 1 && act[0] == "drop")
 	{
-		printf("I will drop a item\n");
-		//Drop(do2);
+		Drop(act[1]);
 		return;
 	}
 
-	else if (do1 == "inventory" || do1 == "inv" || do1 == "i")
+	else if (act[0] == "inventory" || act[0] == "inv" || act[0] == "i")
 	{
-		printf("I will show the inventory\n");
-		//Inventory(do2);
+		Inventory();
 		return;
 	}
 
-	else if (do1 == "equip")
+	else if (space == 1 && act[0] == "equip")
 	{
-		printf("I will equip a item\n");
-		//Equip(do2);
+		Equip(act[1]);
 		return;
 	}
 
-	else if (do1 == "unequip")
+	else if (space == 1 && act[0] == "unequip")
 	{
-		printf("I will unequip a item\n");
-		//Drop(do2);
+		Unequip(act[1]);
 		return;
 	}
 
-	else if (do1 == "put" && do3 == "into")
+	else if (space == 3 && (act[0] == "put" && act[2] == "into"))
 	{
-		printf("I will put a item into another item\n");
-		//Put(do2);
+		Put(act[1], act[3]);
 		return;
 	}
 
-	
+	else if (space == 3 && (act[0] == "get" && act[2] == "from"))
+	{
+		Get(act[1], act[3]);
+		return;
+	}
+
+
 
 	//If the user introduces invalid action
 	else{
 		printf("I don't understand\n");
 	}
-	*/
 }
-
-void World::Inventory(const String&)
+void World::Inventory()
 {
 	int done = 0;
 	printf("You have this items in the inventory:\n");
-	for (int j = 0; j < 8; j++)
+	for (int j = 0; j <= 9; j++)
 	{
 		if (item[j]->picked == true && item[j]->equipped == false)
 		{
@@ -507,18 +544,19 @@ void World::Inventory(const String&)
 			done = 1;
 		}
 	}
-	if (done = 0)
+	if (done == 0)
 	{
 		printf("You don't have items yet\n");
 	}
+	return;
 }
 
 
 int World::Item_verification(const String& item_)
 {
-	for (int j = 0; j < 8; j++)
+	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name.c_str() == item_.c_str())
+		if (item[j]->name == item_)
 		{
 			return 1;
 		}
@@ -542,20 +580,25 @@ void World::Pick(const String& _item)
 		return;
 	}
 
-	for (int j = 0; j < 8; j++)
+
+	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name.c_str() == _item.c_str())
+		if (item[j]->name == _item && item[j]->place == player->position)
 		{
-			if (item[j]->picked == false)
+			if (item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == false)
 			{
 				item[j]->picked = true;
 				printf("You picked %s\n", item[j]->name.c_str());
 				return;
 			}
+			if (item[j]->picked == false && item[j]->equipped == false && item[j]->already_inside == true)
+			{
+				printf("You must get the item from the container\n");
+			}
 		}
 	}
 
-	printf("You have already picked that item\n");
+	printf("You have already picked that item or it isn't here\n");
 	return;
 }
 
@@ -569,11 +612,11 @@ void World::Drop(const String& _item)
 		return;
 	}
 
-	for (int j = 0; j < 8; j++)
+	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name.c_str() == _item.c_str())
+		if (item[j]->name == _item)
 		{
-			if (item[j]->picked == true)
+			if (item[j]->picked == true && item[j]->equipped == false)
 			{
 				item[j]->picked = false;
 				item[j]->place = player->position;
@@ -583,7 +626,7 @@ void World::Drop(const String& _item)
 		}
 	}
 
-	printf("You dont have that item in your inventary that item\n");
+	printf("You dont have that item in your inventary or It's equipped\n");
 	return;
 
 }
@@ -598,15 +641,17 @@ void World::Equip(const String& _item)
 		return;
 	}
 
-	for (int j = 0; j < 8; j++)
+
+	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name.c_str() == _item.c_str())
+		if (item[j]->name == _item)
 		{
-			if (item[j]->equipped == false)
+			if (item[j]->equipped == false && item[j]->picked == true)
 			{
 				if (item[j]->slot == 0 && player->_head == false)
 				{
 					item[j]->equipped = true;
+					item[j]->picked = false;
 					player->_head = true;
 					printf("You equiped %s\n", item[j]->name.c_str());
 					return;
@@ -614,6 +659,7 @@ void World::Equip(const String& _item)
 				if (item[j]->slot == 1 && player->_hand == false)
 				{
 					item[j]->equipped = true;
+					item[j]->picked = false;
 					player->_hand = true;
 					printf("You equiped %s\n", item[j]->name.c_str());
 					return;
@@ -622,6 +668,7 @@ void World::Equip(const String& _item)
 				if (item[j]->slot == 3 && player->_drive == false)
 				{
 					item[j]->equipped = true;
+					item[j]->picked = false;
 					player->_drive = true;
 					printf("You equiped %s\n", item[j]->name.c_str());
 					return;
@@ -631,21 +678,21 @@ void World::Equip(const String& _item)
 
 			else
 			{
-				if (item[j]->slot == 0)
+				if (item[j]->slot == 0 && player->_head == true)
 				{
 					printf("Actually your head is equiped\n");
 				}
-				if (item[j]->slot == 1)
+				if (item[j]->slot == 1 && player->_hand == true)
 				{
 					printf("Actually your hand is equiped\n");
 				}
-				if (item[j]->slot == 3)
+				if (item[j]->slot == 3 && player->_drive == true)
 				{
 					printf("Actually you have transport\n");
 				}
 				else
 				{
-					printf("You can't equip that item\n");
+					printf("You can't equip that item or you don't have it in the inventory\n");
 				}
 				return;
 			}
@@ -663,15 +710,37 @@ void World::Unequip(const String& _item)
 		return;
 	}
 
-	for (int j = 0; j < 8; j++)
+	for (int j = 0; j <= 9; j++)
 	{
-		if (item[j]->name.c_str() == _item.c_str())
+		if (item[j]->name == _item)
 		{
 			if (item[j]->equipped == true)
 			{
-				item[j]->equipped = false;
-				printf("You unequiped %s\n", item[j]->name.c_str());
-				return;
+				if (item[j]->slot == 0 && player->_head == true)
+				{
+					item[j]->equipped = false;
+					item[j]->picked = true;
+					player->_head = false;
+					printf("You unequipped %s\n", item[j]->name.c_str());
+					return;
+				}
+				if (item[j]->slot == 1 && player->_hand == true)
+				{
+					item[j]->equipped = false;
+					item[j]->picked = true;
+					player->_hand = false;
+					printf("You unequipped %s\n", item[j]->name.c_str());
+					return;
+				}
+
+				if (item[j]->slot == 3 && player->_drive == true)
+				{
+					item[j]->equipped = false;
+					item[j]->picked = true;
+					player->_drive = false;
+					printf("You unequipped %s\n", item[j]->name.c_str());
+					return;
+				}
 			}
 			else
 			{
@@ -682,12 +751,122 @@ void World::Unequip(const String& _item)
 	}
 }
 
-void Put(const String& _put, const String& _into)
+void World::Put(const String& _put, const String& _into)
 {
+	int finish = 0;
+	int item_comprovant1 = INVALID;
+	int item_comprovant2 = INVALID;
+	item_comprovant1 = Item_verification(_put);
+	item_comprovant2 = Item_verification(_into);
+	if (item_comprovant1 == INVALID || item_comprovant2 == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	for (int i = 0; i <= 9; i++)
+	{
+		for (int j = 0; j <= 9; j++)
+		{
+			if (_put == item[i]->name && item[i]->inside == true && _into == item[j]->name && item[j]->container == true)
+			{
+				if (_put == item[1]->name && _into == item[3]->name && item[1]->already_inside == false && item[1]->picked == true && item[3]->picked == true)
+				{
+					item[3]->chst.push_back(item[1]); //Olyster only can contain pearl
+					item[1]->equipped = false;
+					item[1]->picked = false;
+					item[1]->already_inside = true;
+					printf("You put %s into %s\n", item[1]->name.c_str(), item[3]->name.c_str());
+					return;
+				}
+
+				if (_put == item[5]->name && _into == item[7]->name && item[5]->already_inside == false && item[5]->picked == true && item[7]->picked == true)
+				{
+					item[7]->chst.push_back(item[5]); //Olyster only can contain pearl
+					item[5]->equipped = false;
+					item[5]->picked = false;
+					item[5]->already_inside = true;
+					printf("You put %s into %s\n", item[5]->name.c_str(), item[7]->name.c_str());
+					return;
+				}
+
+				if (item[5]->name != _put && item[1]->name != _put && item[i]->already_inside == false && item[i]->picked == true && item[j]->picked == true)
+				{
+					item[j]->chst.push_back(item[i]);
+					item[i]->equipped = false;
+					item[i]->picked = false;
+					item[i]->already_inside = true;
+					printf("You put %s into %s\n", item[i]->name.c_str(), item[j]->name.c_str());
+					return;
+				}
+			}
+		}
+		
+	}
+	
+	if (finish == 0)
+	{
+		printf("You can't put that item inside because It is not his correct place or It already is inside\n");
+		return;
+	}
 
 }
 
-void Get(const String& _get, const String& _from)
+void World::Get(const String& _get, const String& _from)
 {
+	int finish = 0;
+	int item_comprovant1 = INVALID;
+	int item_comprovant2 = INVALID;
+	item_comprovant1 = Item_verification(_get);
+	item_comprovant2 = Item_verification(_from);
+	if (item_comprovant1 == INVALID || item_comprovant2 == INVALID)
+	{
+		printf("Thats a invalid item\n");
+		return;
+	}
+
+	for (int i = 0; i <= 9; i++)
+	{
+		for (int j = 0; j <= 9; j++)
+		{
+			if (_get == item[i]->name && item[i]->inside == true && _from == item[j]->name && item[j]->container == true)
+			{
+				if (_get == item[1]->name && _from == item[3]->name && item[1]->picked == false && item[3]->picked == true)
+				{
+					item[1]->equipped = false;
+					item[1]->picked = true;
+					item[1]->already_inside = false;
+					printf("You get %s from %s\n", item[1]->name.c_str(), item[3]->name.c_str());
+					return;
+				}
+
+				if (_get == item[5]->name && _from == item[7]->name && item[5]->already_inside == false && item[5]->picked == true && item[7]->picked == true)
+				{
+					item[5]->equipped = false;
+					item[5]->picked = true;
+					item[5]->already_inside = false;
+					printf("You get %s from %s\n", item[5]->name.c_str(), item[7]->name.c_str());
+					return;
+				}
+
+				if (item[5]->name != _get && item[1]->name != _get && item[i]->picked == false && item[j]->picked == true)
+				{
+					item[j]->chst.push_back(item[i]);
+					item[i]->equipped = false;
+					item[i]->picked = true;
+					item[1]->already_inside = false;
+					printf("You get %s from %s\n", item[i]->name.c_str(), item[j]->name.c_str());
+					return;
+				}
+			}
+		}
+
+	}
+
+	if (finish == 0)
+	{
+		printf("You can't get that item from it\n");
+		return;
+	}
 
 }

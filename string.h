@@ -9,8 +9,8 @@ class String
 {
 private:
 
-	char* my_string = "";
-	unsigned int max_size = strlen(my_string) + 1;
+	char* my_string = nullptr;
+	unsigned int max_size = 0;// = strlen(my_string) + 1;
 
 public:
 
@@ -35,7 +35,7 @@ public:
 	void tolower_method();
 	int const spaces() const;
 	//void Token(String &str, Vector<String> &strings);
-	Vector<String> String::SplitString();
+	void String::TokenizeString(char*, Vector<String>&);
 	~String();
 };
 
