@@ -96,7 +96,7 @@ public:
 	}
 
 	//CLEAN
-	void Slean()
+	void Clean()
 	{
 		num_elements = 0;
 	}

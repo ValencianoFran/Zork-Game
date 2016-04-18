@@ -18,7 +18,7 @@ int main() {
 
 	while (1)
 	{
-		gets_s(direc, 20);
+		gets_s(direc, 30);
 		direction = direc;
 		world.Mayus(direction);
 		if (direction == "quit")
